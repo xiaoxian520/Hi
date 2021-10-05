@@ -1,0 +1,3014 @@
+diff -urpBN hiopenais/src/hi_ext_util/hi_ext_def.h hiopenais_modify/src/hi_ext_util/hi_ext_def.h
+--- hiopenais/src/hi_ext_util/hi_ext_def.h	2021-03-29 19:19:03.000000000 +0800
++++ hiopenais_modify/src/hi_ext_util/hi_ext_def.h	2021-06-25 10:44:17.656045853 +0800
+@@ -23,7 +23,7 @@ extern "C" {
+ #endif
+ 
+ /**
+-    bit³£Á¿.
++    bitå¸¸é‡.
+ */
+ #define HI_BIT0             0x01U
+ #define HI_BIT1             0x02U
+@@ -43,23 +43,23 @@ extern "C" {
+ #define HI_BIT15            0x8000U
+ 
+ /**
+-    ³£ÓÃÊı×Öµ¥Î».
++    å¸¸ç”¨æ•°å­—å•ä½.
+ */
+ #define HI_KB               1024
+ #define HI_MB               (1024 * 1024)
+-#define HI_MS_OF_SEC        1000 // 1sµÄºÁÃëÊı
+-#define HI_NS_OF_MS         1000000 // 1msµÄÄÉÃëÊı
+-#define HI_BYTE_BITS        8 // 1byteµÄbitsÊı
+-#define HI_OVEN_BASE        2 // Å¼Êı»ùÊı
+-#define HI_INT8_BITS        8 // 8Î»ÕûÊıµÄbitÊı
+-#define HI_INT16_BITS       16 // 16Î»ÕûÊıµÄbitÊı
+-#define HI_INT32_BITS       32 // 32Î»ÕûÊıµÄbitÊı
+-#define HI_INT64_BITS       64 // 64Î»ÕûÊıµÄbitÊı
++#define HI_MS_OF_SEC        1000 // 1sçš„æ¯«ç§’æ•°
++#define HI_NS_OF_MS         1000000 // 1msçš„çº³ç§’æ•°
++#define HI_BYTE_BITS        8 // 1byteçš„bitsæ•°
++#define HI_OVEN_BASE        2 // å¶æ•°åŸºæ•°
++#define HI_INT8_BITS        8 // 8ä½æ•´æ•°çš„bitæ•°
++#define HI_INT16_BITS       16 // 16ä½æ•´æ•°çš„bitæ•°
++#define HI_INT32_BITS       32 // 32ä½æ•´æ•°çš„bitæ•°
++#define HI_INT64_BITS       64 // 64ä½æ•´æ•°çš„bitæ•°
+ #define HI_PER_BASE         100
+ 
+ /**
+-    usleepÊ±¼ä³¤¶È.
+-    usleep()µÄµ¥Î»ÎªÎ¢Ãî¡£
++    usleepæ—¶é—´é•¿åº¦.
++    usleep()çš„å•ä½ä¸ºå¾®å¦™ã€‚
+ */
+ #define HI_USLEEP_MS       1000
+ 
+@@ -72,24 +72,24 @@ extern "C" {
+ #define HI_EC_ASSERT_FAIL   100
+ 
+ /**
+-    Í¨ÓÃ³£Á¿.
++    é€šç”¨å¸¸é‡.
+ */
+-#define IP_STR_BUF_SIZE     40 // ×Ö·û´®¸ñÊ½µÄipµØÖ·buf³¤¶È
+-#define INT_STR_BUF_SIZE    64 // ×Ö·û´®±íÊ¾µÄÕûÊıµÄbufµÄ³¤¶È
++#define IP_STR_BUF_SIZE     40 // å­—ç¬¦ä¸²æ ¼å¼çš„ipåœ°å€bufé•¿åº¦
++#define INT_STR_BUF_SIZE    64 // å­—ç¬¦ä¸²è¡¨ç¤ºçš„æ•´æ•°çš„bufçš„é•¿åº¦
+ #define TINY_BUF_SIZE       64 // tiny buf size
+ #define SMALL_BUF_SIZE      128 // small buf size
+ #define NORM_BUF_SIZE       256 // normal buf size
+ #define LARGE_BUF_SIZE      1024 // normal buf size
+ #define HUGE_BUF_SIZE       9120 // huge buf size
+-#define DUMP_LINE_BYTES     16 // dumpÊı¾İÊ±£¬Ã¿ĞĞµÄbyteÊı
++#define DUMP_LINE_BYTES     16 // dumpæ•°æ®æ—¶ï¼Œæ¯è¡Œçš„byteæ•°
+ 
+ /**
+     misc consts.
+ */
+-#define MAC_BYTE_SIZE       6 // macµØÖ·µÄ×Ö½Ú³¤¶È
++#define MAC_BYTE_SIZE       6 // macåœ°å€çš„å­—èŠ‚é•¿åº¦
+ 
+ /**
+-    RGB888³£ÓÃÑÕÉ«.
++    RGB888å¸¸ç”¨é¢œè‰².
+ */
+ #define RGB888_RED          ((uint32_t)0xFF0000)
+ #define RGB888_GREEN        ((uint32_t)0x00FF00)
+@@ -99,7 +99,7 @@ extern "C" {
+ #define RGB888_BLACK        ((uint32_t)0x000000)
+ 
+ /**
+-    ARGB1555³£ÓÃÑÕÉ«.
++    ARGB1555å¸¸ç”¨é¢œè‰².
+ */
+ #define ARGB1555_RED        0xFC00 // 1 11111 00000 00000
+ #define ARGB1555_GREEN      0x83E0 // 1 00000 11111 00000
+@@ -110,8 +110,8 @@ extern "C" {
+ #define ARGB1555_BLACK      0x8000 // 1 00000 00000 00000
+ 
+ /**
+-    char pointerÀàĞÍ.
+-    ÓÃÓÚ¶¨Òåº¯ÊıÖ¸ÕëÀàĞÍÊ±·µ»Øchar*. ÒÔÈÆ¿ªÄ³Ğ©±à¼­¹¤¾ßµÄÎÊÌâ.
++    char pointerç±»å‹.
++    ç”¨äºå®šä¹‰å‡½æ•°æŒ‡é’ˆç±»å‹æ—¶è¿”å›char*. ä»¥ç»•å¼€æŸäº›ç¼–è¾‘å·¥å…·çš„é—®é¢˜.
+ */
+ #define HI_PCHAR char*
+ 
+@@ -121,7 +121,7 @@ extern "C" {
+ 
+ /**
+     hi heap api.
+-    ÔÚextern "C" {} Ö®Íâ¶¨Òå.
++    åœ¨extern "C" {} ä¹‹å¤–å®šä¹‰.
+ */
+ #ifdef CFG_EXT_HEAP
+ #include "hi_ext_heap.h"
+diff -urpBN hiopenais/src/hi_ext_util/hi_misc_util.h hiopenais_modify/src/hi_ext_util/hi_misc_util.h
+--- hiopenais/src/hi_ext_util/hi_misc_util.h	2021-03-30 11:34:26.000000000 +0800
++++ hiopenais_modify/src/hi_ext_util/hi_misc_util.h	2021-06-30 19:44:15.222091563 +0800
+@@ -28,17 +28,17 @@ extern "C" {
+ #endif
+ 
+ /**
+-    È¡×îĞ¡Öµ.
++    å–é”Ÿæ–¤æ‹·å°å€¼.
+ */
+ #define HI_MIN(a, b) ((a) < (b) ? (a) : (b))
+ 
+ /**
+-    È¡×î´óÖµ.
++    å–é”Ÿæ–¤æ‹·é”Ÿè¡—ï¿½.
+ */
+ #define HI_MAX(a, b) ((a) > (b) ? (a) : (b))
+ 
+ /**
+-    È¡arrayµÄÔªËØÊıÄ¿.
++    å–arrayé”Ÿæ–¤æ‹·å…ƒé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·ç›®.
+ */
+ #define HI_ARRAY_SIZE(arr) ((sizeof(arr) / sizeof((arr)[0])))
+ 
+@@ -119,7 +119,7 @@ static inline void HiPutBe32(uint32_t va
+ }
+ 
+ /**
+-    ×Ö½Ú¶ÔÆë¼ÆËã.
++    é”Ÿè¡—èŠ‚è®¹æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿï¿½.
+ */
+ #define HI_ALIGN2(num) (((num) + 2 - 1) / 2 * 2)
+ #define HI_ALIGN8(num) (((num) + 8 - 1) / 8 * 8)
+@@ -127,65 +127,65 @@ static inline void HiPutBe32(uint32_t va
+ #define HI_ALIGN32(num) (((num) + 32 - 1) / 32 * 32)
+ 
+ /**
+-    ½«²ÎÊı×ª»»Îªstring³£Á¿.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·è½¬é”Ÿæ–¤æ‹·ä¸ºstringé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·.
+ */
+ #define HI_TO_STR1(c)   #c
+ #define HI_TO_STR(c)    HI_TO_STR1(c)
+ 
+ /**
+-    È¡×Ô¿ª»úÒÔÀ´µÄµ±Ç°Ê±¼ä(ms).
++    å–é”Ÿçš†åŒ¡æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿä¾¥ç¢‰æ‹·å‰æ—¶é”Ÿæ–¤æ‹·(ms).
+ */
+ int64_t HiClockMs(void);
+ 
+ /**
+-    ½«Êı¾İÒÔhex¸ñÊ½dumpµ½stdout.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·hexé”Ÿæ–¤æ‹·å¼dumpé”Ÿæ–¤æ‹·stdout.
+ 
+-    16¸ö×Ö½ÚµÄÊı¾İÎªÒ»ĞĞ¡£
+-    @return ·µ»ØÊä³öµÄ×Ö½ÚÊı¡£
++    16é”Ÿæ–¤æ‹·é”Ÿè¡—èŠ‚ç¢‰æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·ä¸ºä¸€é”Ÿå«â˜…æ‹·
++    @return é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·çº¸é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿï¿½
+ */
+ int HiDumpHex(const void* buf, int len);
+ 
+ /**
+-    ½«Êı¾İÒÔtxt¸ñÊ½dumpµ½stdout.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·txté”Ÿæ–¤æ‹·å¼dumpé”Ÿæ–¤æ‹·stdout.
+ */
+ int HiDumpTxt(const void* buf, int len);
+ 
+ /**
+-    ¶ş½øÖÆÊı¾İ×ª»»Îªhex±íÊ¾µÄstring.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·è½¬é”Ÿæ–¤æ‹·ä¸ºhexé”Ÿæ–¤æ‹·ç¤ºé”Ÿæ–¤æ‹·string.
+ */
+ int HiBinToStr(const void* bin, int binLen, char* str, int strSize);
+ 
+ /**
+-    ¿É×÷ÎªÁ´±í½ÚµãµÄmem block.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·ä¸ºé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”ŸèŠ‚ç¢‰æ‹·é”Ÿçµ¤em block.
+ */
+ typedef struct MemBlk {
+     struct list_head lnode;
+ 
+-    int index; // ¹©APP×Ô¶¨ÒåÊ¹ÓÃµÄÊôĞÔ
+-    int offset; // Í¨³£ÓÃÀ´×÷ÎªseekÖ¸Õë£¬¶ÔÏó´´½¨Ê±±»³õÊ¼»¯Îª0
+-    int len; // ÓĞĞ§Êı¾İ³¤¶È
++    int index; // é”Ÿæ–¤æ‹·APPé”Ÿçš†è®¹æ‹·é”Ÿæ–¤æ‹·ä½¿é”ŸçŸ«ç¢‰æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
++    int offset; // é€šé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·ä¸ºseekæŒ‡é”Ÿè¯«ï¼Œé”Ÿæ–¤æ‹·é”Ÿè¥Ÿåˆ›æ–¤æ‹·æ—¶é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å§‹é”Ÿæ–¤æ‹·ä¸º0
++    int len; // é”Ÿæ–¤æ‹·æ•ˆé”Ÿæ–¤æ‹·é”Ÿæ·ç­¹æ‹·é”Ÿæ–¤æ‹·
+     int size; // buf size
+     uint8_t data[]; // buf
+ }   MemBlk;
+ 
+ /**
+-    ´´½¨MemBlk.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·MemBlk.
+ */
+ MemBlk* MemBlkNew(int size);
+ 
+ /**
+-    ´´½¨MemBlk.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·MemBlk.
+ */
+ MemBlk* MemBlkNew2(int size, int rsvSize);
+ 
+ /**
+-    Ïú»ÙMemBlk.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·MemBlk.
+ */
+ void MemBlkDelete(MemBlk* self);
+ 
+ /**
+-    »ñµÃÊµ¼ÊÊı¾İ³¤¶È.
+-    µ±Ê¹ÓÃoffsetÊ±Ê¹ÓÃ.
++    é”Ÿæ–¤æ‹·é”Ÿç»ç¢‰æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·è©é”Ÿæ–¤æ‹·é”Ÿï¿½.
++    é”Ÿæ–¤æ‹·ä½¿é”Ÿæ–¤æ‹·offsetæ—¶ä½¿é”Ÿæ–¤æ‹·.
+ */
+ static inline int MemBlkLen(MemBlk* self)
+ {
+@@ -194,8 +194,8 @@ static inline int MemBlkLen(MemBlk* self
+ }
+ 
+ /**
+-    »ñµÃÊı¾İ´æ´¢µÄÊ×µØÖ·.
+-    µ±Ê¹ÓÃoffsetÊ±Ê¹ÓÃ.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·è½å¨²î®æ‹·é”Ÿæ–¤æ‹·æ¤é”Ÿè¡—ï¿½.
++    é”Ÿæ–¤æ‹·ä½¿é”Ÿæ–¤æ‹·offsetæ—¶ä½¿é”Ÿæ–¤æ‹·.
+ */
+ static inline uint8_t* MemBlkData(MemBlk* self)
+ {
+@@ -204,28 +204,28 @@ static inline uint8_t* MemBlkData(MemBlk
+ }
+ 
+ /**
+-    ÔÚÍ·²¿Ìí¼Óstring.
++    é”Ÿæ–¤æ‹·å¤´é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·string.
+ */
+ int MemBlkPrefixStr(MemBlk* self, const char* str, int len);
+ 
+ /**
+-    ÔÚÎ²²¿Ìí¼Óstring.
++    é”Ÿæ–¤æ‹·å°¾é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·string.
+ */
+ int MemBlkSuffixStr(MemBlk* self, const char* str, int len);
+ 
+ /**
+-    Ïú»ÙMemBlkÁ´±íÖĞµÄËùÓĞ½Úµã.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·MemBlké”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿå«ç¢‰æ‹·é”Ÿæ–¤æ‹·é”Ÿå«èŠ‚ç¢‰æ‹·.
+ */
+ void MemBlksDelete(struct list_head* list);
+ 
+ /**
+-    ÇólistÖĞMemBlkµÄ³¤¶ÈÖ®ºÍ.
++    é”Ÿæ–¤æ‹·listé”Ÿæ–¤æ‹·MemBlké”Ÿä¾¥ç­¹æ‹·é”Ÿæ–¤æ‹·ä¹‹é”Ÿæ–¤æ‹·.
+ */
+ size_t MemBlksSize(struct list_head* list);
+ 
+ /**
+-    MemBlk´¦ÀíÆ÷ÀàĞÍ.
+-    Í¨ÓÃÀàĞÍ(½Ó¿Ú)£¬Æäº¬ÒåÓÉ¾ßÌåÓ¦ÓÃ½âÊÍ¡£
++    MemBlké”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·.
++    é€šé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·(é”Ÿæ¥åŒ¡æ‹·)é”Ÿæ–¤æ‹·é”Ÿæˆ’å«é”Ÿæ–¤æ‹·é”Ÿç¼´æ’…æ‹·é”Ÿæ–¤æ‹·åº”é”ŸçŸ«æ–¤æ‹·é”Ÿé…µâ˜…æ‹·
+ */
+ typedef int (*MemBlkProc)(void* user, MemBlk* blk);
+ 
+@@ -237,39 +237,40 @@ typedef struct RectBox {
+     int ymin;
+     int xmax;
+     int ymax;
++    pthread_mutex_t MutexLock;
+ }   RectBox;
+ 
+ /**
+-    °´±ÈÀı×ª»»×ø±ê.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·è½¬é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·.
+ 
+-    ½«Ïà¶ÔÓÚ{srcWidth, srcHeight}µÄ×ø±ê£¬×ª»»ÎªÏà¶ÔÓÚ{dstWidth, dstHeight}µÄ×ø±ê¡£
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿçµ³srcWidth, srcHeight}é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿç–¥ï¼Œè½¬é”Ÿæ–¤æ‹·ä¸ºé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿçµ³dstWidth, dstHeight}é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿç–¥ã€‚
+ 
+-    @param box[in|out]: ÊäÈëÎªÏà¶ÔÓÚ{srcWidth, srcHeight}µÄ×ø±ê£¬Êä³öÎªÏà¶ÔÓÚ{dstWidth, dstHeight}µÄ×ø±ê¡£
+-    @param srcWidth[in]: Ô­×ø±êwidth¡£
+-    @param srcHeight[in]: Ô­×ø±êheight¡£
+-    @param dstWidth[in]: Ä¿µÄ×ø±êwidth¡£
+-    @param dstHeight[in]: Ä¿µÄ×ø±êheight¡£
++    @param box[in|out]: é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·ä¸ºé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿçµ³srcWidth, srcHeight}é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿç–¥ï¼Œé”Ÿæ–¤æ‹·é”Ÿè½¿îæ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·{dstWidth, dstHeight}é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿç–¥ã€‚
++    @param srcWidth[in]: åŸé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·widthé”Ÿæ–¤æ‹·
++    @param srcHeight[in]: åŸé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·heighté”Ÿæ–¤æ‹·
++    @param dstWidth[in]: ç›®é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·widthé”Ÿæ–¤æ‹·
++    @param dstHeight[in]: ç›®é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·heighté”Ÿæ–¤æ‹·
+ */
+ void RectBoxTran(RectBox* box, int srcWidth, int srcHeight, int dstWidth, int dstHeight);
+ 
+ /**
+-    ½«ÕûÊı·Å´óµ½¸ø¶¨µÄ±¶Êı·¶Î§ÄÚ.
++    é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿè„šå¤§åˆ°é©æ‹·é”Ÿæ–¤æ‹·é”Ÿä¾¥æ†‹æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å›´é”Ÿæ–¤æ‹·.
+ 
+-    Ä³Ğ©Ğ¾Æ¬µÄIVE½öÖ§³ÖÕûÊı±¶µÄËõ·Å£¬ÄÑÒÔÖ§³ÖÈÎÒâsrcµ½ÈÎÒâdstµÄsize×ª»»¡£
+-    Ä¿Ç°½ö²¿·ÖµÍ¶ËĞ¾Æ¬ÓĞ´ËÒªÇó£¬Ôİ²»Ö§³Ö¡£
++    æŸäº›èŠ¯ç‰‡é”Ÿæ–¤æ‹·IVEé”Ÿæ–¤æ‹·æ”¯é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿè„šï½æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·æ”¯é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·srcé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·dsté”Ÿæ–¤æ‹·sizeè½¬é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·
++    ç›®å‰é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿè¡—ä½è®¹æ‹·èŠ¯ç‰‡é”Ÿå«è¾¾æ‹·è¦é”Ÿæ–¤æ‹·é”Ÿæ·è¯§æ‹·æ”¯é”Ÿè¡—â˜…æ‹·
+ 
+-    @param size[in]: ´ıËõ·ÅµÄÕûÊı.
+-    @param rate[in]: Ï£ÍûËõ·ÅµÄ±ÈÀı.
+-    @param rateMax[in]: ×îĞ¡µÄ·Å´ó±ÈÀı. Ò²¼´×î´óµÄËõĞ¡±¶Êı£¬±ØĞëĞ¡ÓÚ1.
+-    @param rateMin[in]: ×î´óµÄ·Å´ó±ÈÀı.
++    @param size[in]: é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿè„šç¢‰æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·.
++    @param rate[in]: å¸Œé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿè„šçš„æ†‹æ‹·é”Ÿæ–¤æ‹·.
++    @param rateMax[in]: é”Ÿæ–¤æ‹·å°é”Ÿä¾¥æ”¾è¾¾æ‹·é”Ÿæ–¤æ‹·é”Ÿï¿½. ä¹Ÿé”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å°é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·å°é”Ÿæ–¤æ‹·1.
++    @param rateMin[in]: é”Ÿæ–¤æ‹·é”Ÿä¾¥æ”¾è¾¾æ‹·é”Ÿæ–¤æ‹·é”Ÿï¿½.
+ 
+-    @return ·µ»Ø·Å´óºóµÄÕûÊı.
++    @return é”Ÿæ–¤æ‹·é”Ÿæˆªæ”¾è¾¾æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·.
+ */
+ int IntZoomTo(int n, double rate, double rateMin, double rateMax);
+ 
+ /**
+     length and data struct.
+-    ÁÙÊ±Ê¹ÓÃ¡£
++    é”Ÿæ–¤æ‹·æ—¶ä½¿é”ŸçŸ«â˜…æ‹·
+ */
+ typedef struct HiLenData {
+     int len;
+@@ -277,22 +278,22 @@ typedef struct HiLenData {
+ }   HiLenData;
+ 
+ /**
+-    ¼ÓÈ«¾ÖËø.
++    é”Ÿæ–¤æ‹·å…¨é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·.
+ */
+ void HiGlbLock(void);
+ 
+ /**
+-    ½âÈ«¾ÖËø.
++    é”Ÿæ–¤æ‹·å…¨é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·.
+ */
+ void HiGlbUnlock(void);
+ 
+ /**
+-    ³õÊ¼»¯È«¾ÖËø.
++    é”Ÿæ–¤æ‹·å§‹é”Ÿæ–¤æ‹·å…¨é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·.
+ */
+ void HiGlbLockInit(void);
+ 
+ /**
+-    È¥³õÊ¼»¯È«¾ÖËø.
++    å»é”Ÿæ–¤æ‹·å§‹é”Ÿæ–¤æ‹·å…¨é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·.
+ */
+ void HiGlbLockExit(void);
+ 
+diff -urpBN hiopenais/src/hi_ext_util/posix_help.c hiopenais_modify/src/hi_ext_util/posix_help.c
+--- hiopenais/src/hi_ext_util/posix_help.c	2021-05-05 17:20:16.000000000 +0800
++++ hiopenais_modify/src/hi_ext_util/posix_help.c	2021-03-29 19:19:03.000000000 +0800
+@@ -486,6 +487,7 @@ int FdReadMsg(int fd, void* msgBuf, int
+             }
+             usleep(HI_USLEEP_MS); // wait 1ms, and try again
+         } else { // read error
++            LOGE("FdReadMsg FAIL, err='%s'\n", strerror(errno));
+             return -1;
+         }
+     }
+diff -urpBN hiopenais/src/hiopenais/hiopenais.c hiopenais_modify/src/hiopenais/hiopenais.c
+--- hiopenais/src/hiopenais/hiopenais.c	2021-08-09 17:53:25.000000000 +0800
++++ hiopenais_modify/src/hiopenais/hiopenais.c	2021-03-30 11:48:05.000000000 +0800
+@@ -357,12 +357,11 @@ int AppInit(TheApp* app)
+     AicInit();
+ 
+     // uvc aic agent
+-    if (GetCfgBool("uvc_dev0:support_uvc", true)) {
+-        uvc_create(&app->uvcDev, NULL, UVC_CFG_SEC);
+-        if (app->uvcDev) {
+-            UvcAgentCreate(&app->uvcAgent, app->uvcDev);
+-        }
++    uvc_create(&app->uvcDev, NULL, UVC_CFG_SEC);
++    if (app->uvcDev) {
++        UvcAgentCreate(&app->uvcAgent, app->uvcDev);
+     }
++
+     // httpd aic agent
+     HttpdAicInit();
+ 
+@@ -447,13 +446,11 @@ int AppExit(TheApp* app)
+     // httpd aic agent
+     HttpdAicExit();
+ 
+-    if (GetCfgBool("uvc_dev0:support_uvc", true)) {
+-        if (app->uvcAgent) {
+-            UvcAgentDestroy(app->uvcAgent);
+-        }
+-        if (app->uvcDev) {
+-            uvc_destroy(app->uvcDev);
+-        }
++    if (app->uvcAgent) {
++        UvcAgentDestroy(app->uvcAgent);
++    }
++    if (app->uvcDev) {
++        uvc_destroy(app->uvcDev);
+     }
+ 
+     AicExit();
+@@ -497,11 +494,9 @@ int main(int argc, char *argv[])
+     signal(SIGTERM, SIG_IGN);
+ 
+     // ÖØÖÃÇı¶¯ÎªÖ§³ÖRNDIS+UVC
+-    if (GetCfgBool("uvc_dev0:support_uvc", true)) {
+-        LOGI("@@@ RNDIS_ONLY => RNDIS_UVC ...\n");
+-        system("/komod/load_rndis_uvc.sh");
+-        LOGI("@@@ RNDIS_ONLY => RNDIS_UVC done\n\n");
+-    }
++    LOGI("@@@ RNDIS_ONLY => RNDIS_UVC ...\n");
++    system("/komod/load_rndis_uvc.sh");
++    LOGI("@@@ RNDIS_ONLY => RNDIS_UVC done\n\n");
+ 
+     LOGI("*** HiOpenAIS %s ***\n", APP_VER);
+     LOGI("MAIN: app init ...\n");
+@@ -531,12 +526,9 @@ int main(int argc, char *argv[])
+     fflush(stdout);
+ 
+     // ÖØÖÃÇı¶¯ÎªÖ»Ö§³ÖRNDIS
+-    if (GetCfgBool("uvc_dev0:support_uvc", true)) {
+-        LOGI("\n@@@ RNDIS+UVC => RNDIS_ONLY ...\n");
+-        system("/komod/load_rndis_only.sh");
+-        LOGI("@@@ RNDIS_UVC => RNDIS_ONLY done\n");
+-    }
+-    
++    LOGI("\n@@@ RNDIS+UVC => RNDIS_ONLY ...\n");
++    system("/komod/load_rndis_only.sh");
++    LOGI("@@@ RNDIS_UVC => RNDIS_ONLY done\n");
+     return 0;
+ }
+ 
+diff -urpBN hiopenais/src/mpp_help/ive_img.c hiopenais_modify/src/mpp_help/ive_img.c
+--- hiopenais/src/mpp_help/ive_img.c	2021-07-02 10:43:32.000000000 +0800
++++ hiopenais_modify/src/mpp_help/ive_img.c	2021-09-06 14:59:26.391179615 +0800
+@@ -31,22 +31,22 @@
+ /**
+     consts
+ */
+-#define IMG_FULL_CHN    3 // È«Í¨µÀ/ÈıÍ¨µÀ, for YUV444, RGB888
+-#define IMG_HALF_CHN    2 // °ëÍ¨µÀ£¬for YUV420/422
++#define IMG_FULL_CHN    3 // å…¨é€šé“/ä¸‰é€šé“, for YUV444, RGB888
++#define IMG_HALF_CHN    2 // åŠé€šé“ï¼Œfor YUV420/422
+ #define THREE_TIMES     3
+ #define TWO_TIMES       2
+ 
+ /**
+-    ¶ÔÆëÀàĞÍ.
++    å¯¹é½ç±»å‹.
+ */
+ typedef enum AlignType {
+-    ALIGN_TYPE_2 = 2, // °´2byte¶ÔÆë
+-    ALIGN_TYPE_16 = 16, // °´16byte¶ÔÆë
+-    ALIGN_TYPE_32 = 32, // °´32byte¶ÔÆë
++    ALIGN_TYPE_2 = 2, // æŒ‰2byteå¯¹é½
++    ALIGN_TYPE_16 = 16, // æŒ‰16byteå¯¹é½
++    ALIGN_TYPE_32 = 32, // æŒ‰32byteå¯¹é½
+ }   AlignType;
+ 
+ /**
+-    Îªive resize ctrlµÈ½á¹¹·ÖÅäÄÚ´æ.
++    ä¸ºive resize ctrlç­‰ç»“æ„åˆ†é…å†…å­˜.
+ */
+ static int IveCtrlAlloc(IVE_MEM_INFO_S *memInfo, uint32_t size, bool cached)
+ {
+@@ -67,7 +67,7 @@ static int IveCtrlAlloc(IVE_MEM_INFO_S *
+ }
+ 
+ /**
+-    ÊÍ·ÅÎªive resize ctrlµÈ·ÖÅäµÄÄÚ´æ.
++    é‡Šæ”¾ä¸ºive resize ctrlç­‰åˆ†é…çš„å†…å­˜.
+ */
+ static void IveCtrlFree(IVE_MEM_INFO_S *memInfo)
+ {
+@@ -128,7 +128,7 @@ HI_S32 IveDmaCopy(IVE_HANDLE *iveHnd, IV
+ }
+ 
+ /**
+-    ¼ÆËãÒ»¸öÍ¨µÀµÄstride.
++    è®¡ç®—ä¸€ä¸ªé€šé“çš„stride.
+ */
+ static uint32_t IveCalStride(IVE_IMAGE_TYPE_E enType, uint32_t width, AlignType align)
+ {
+@@ -170,7 +170,7 @@ static uint32_t IveCalStride(IVE_IMAGE_T
+ }
+ 
+ /**
+-    Îªimage¸÷Í¨µÀ¸³³õÖµ.
++    ä¸ºimageå„é€šé“èµ‹åˆå€¼.
+ */
+ void IveImgSet(IVE_IMAGE_S* img, HI_U8 c1, HI_U8 c2, HI_U8 c3)
+ {
+@@ -191,7 +191,7 @@ void IveImgSet(IVE_IMAGE_S* img, HI_U8 c
+ }
+ 
+ /**
+-    ¸ù¾İtypeºÍsize´´½¨ive image buffer.
++    æ ¹æ®typeå’Œsizeåˆ›å»ºive image buffer.
+ */
+ int IveImgCreate(IVE_IMAGE_S* img,
+     IVE_IMAGE_TYPE_E enType, uint32_t width, uint32_t height)
+@@ -211,14 +211,14 @@ int IveImgCreate(IVE_IMAGE_S* img,
+ 
+     switch (enType) {
+         case IVE_IMAGE_TYPE_U8C1:
+-        case IVE_IMAGE_TYPE_S8C1: // Ö»ÓĞ1¸öÍ¨µÀ
++        case IVE_IMAGE_TYPE_S8C1: // åªæœ‰1ä¸ªé€šé“
+             size = img->au32Stride[0] * img->u32Height;
+             ret = HI_MPI_SYS_MmzAlloc(&img->au64PhyAddr[0], (void**)&img->au64VirAddr[0], NULL, NULL, size);
+             HI_CHK_RET(ret, "Mmz Alloc FAIL, err=%#x\n", ret);
+             break;
+ 
+-        case IVE_IMAGE_TYPE_YUV420SP: // sizeÏàµ±ÓÚÏñËØµÄ1.5±¶(3/2)£¬Ïàµ±ÓÚ2Í¨µÀ
+-        case IVE_IMAGE_TYPE_YUV422SP: // sizeÏàµ±ÓÚÏñËØµÄ2±¶£¬Ïàµ±ÓÚ2Í¨µÀ
++        case IVE_IMAGE_TYPE_YUV420SP: // sizeç›¸å½“äºåƒç´ çš„1.5å€(3/2)ï¼Œç›¸å½“äº2é€šé“
++        case IVE_IMAGE_TYPE_YUV422SP: // sizeç›¸å½“äºåƒç´ çš„2å€ï¼Œç›¸å½“äº2é€šé“
+             if (enType == IVE_IMAGE_TYPE_YUV420SP) {
+                 size = img->au32Stride[0] * img->u32Height * THREE_TIMES / TWO_TIMES;
+             } else {
+@@ -227,28 +227,28 @@ int IveImgCreate(IVE_IMAGE_S* img,
+             ret = HI_MPI_SYS_MmzAlloc(&img->au64PhyAddr[0], (void**)&img->au64VirAddr[0], NULL, NULL, size);
+             HI_CHK_RET(ret, "Mmz Alloc FAIL, ret=%#x\n", ret);
+ 
+-            // ÉèÖÃÍ¨µÀ1µÄµØÖ·µÄstride£¬¶şÕß¶¼ĞèÒªÍ¨µÀ1
++            // è®¾ç½®é€šé“1çš„åœ°å€çš„strideï¼ŒäºŒè€…éƒ½éœ€è¦é€šé“1
+             img->au32Stride[1] = img->au32Stride[0];
+             img->au64PhyAddr[1] = img->au64PhyAddr[0] + img->au32Stride[0] * (uint64_t)img->u32Height;
+             img->au64VirAddr[1] = img->au64VirAddr[0] + img->au32Stride[0] * (uint64_t)img->u32Height;
+             break;
+ 
+-        case IVE_IMAGE_TYPE_U8C3_PLANAR: // 3Í¨µÀ,³£ÓÃÓÚRGB
++        case IVE_IMAGE_TYPE_U8C3_PLANAR: // 3é€šé“,å¸¸ç”¨äºRGB
+             oneChnSize = img->au32Stride[0] * img->u32Height;
+-            size = oneChnSize * 3; // 3¸öÍ¨µÀsizeÏàÍ¬
++            size = oneChnSize * 3; // 3ä¸ªé€šé“sizeç›¸åŒ
+             ret = HI_MPI_SYS_MmzAlloc(&img->au64PhyAddr[0], (void**)&img->au64VirAddr[0], NULL, NULL, size);
+             HI_CHK_RET(ret, "Mmz Alloc FAIL, ret=%#x\n", ret);
+ 
+-            // ÉèÖÃÍ¨µÀ1£¬Í¨µÀ2µÄµØÖ·Óëstride
++            // è®¾ç½®é€šé“1ï¼Œé€šé“2çš„åœ°å€ä¸stride
+             img->au64VirAddr[1] = img->au64VirAddr[0] + oneChnSize;
+             img->au64PhyAddr[1] = img->au64PhyAddr[0] + oneChnSize;
+             img->au32Stride[1] = img->au32Stride[0];
+-            img->au64VirAddr[2] = img->au64VirAddr[1] + oneChnSize; // 2: au64VirAddrÊı×éÏÂ±ê,²»Ô½½ç
+-            img->au64PhyAddr[2] = img->au64PhyAddr[1] + oneChnSize; // 2: au64VirAddrÊı×éÏÂ±ê,²»Ô½½ç
+-            img->au32Stride[2] = img->au32Stride[0]; // 2: au64VirAddrÊı×éÏÂ±ê,²»Ô½½ç
++            img->au64VirAddr[2] = img->au64VirAddr[1] + oneChnSize; // 2: au64VirAddræ•°ç»„ä¸‹æ ‡,ä¸è¶Šç•Œ
++            img->au64PhyAddr[2] = img->au64PhyAddr[1] + oneChnSize; // 2: au64VirAddræ•°ç»„ä¸‹æ ‡,ä¸è¶Šç•Œ
++            img->au32Stride[2] = img->au32Stride[0]; // 2: au64VirAddræ•°ç»„ä¸‹æ ‡,ä¸è¶Šç•Œ
+             break;
+ 
+-        // Ôİ²»Ö§³ÖµÄtype: YVC420P, YUV422P, S8C2_PACKAGE, S8C2_PLANAR,
++        // æš‚ä¸æ”¯æŒçš„type: YVC420P, YUV422P, S8C2_PACKAGE, S8C2_PLANAR,
+         // S32C1, U32C1, S64C1, U64C1, S16C1, U16C1, U8C3_PACKAGE,etc.
+         default:
+             HI_ASSERT(0);
+@@ -258,7 +258,7 @@ int IveImgCreate(IVE_IMAGE_S* img,
+ }
+ 
+ /**
+-    Ïú»Ùive Image.
++    é”€æ¯ive Image.
+ */
+ void IveImgDestroy(IVE_IMAGE_S* img)
+ {
+@@ -275,8 +275,8 @@ void IveImgDestroy(IVE_IMAGE_S* img)
+ }
+ 
+ /**
+-    ÓÃIVEÖ´ĞĞÒ»´ÎÍ¼ÏñËõ·Å.
+-    Ö»Ö§³ÖU8C3/U8C1 planer£¬¼´RGB, BGRµÈ£¬²»Ö§³ÖYUV¡£
++    ç”¨IVEæ‰§è¡Œä¸€æ¬¡å›¾åƒç¼©æ”¾.
++    åªæ”¯æŒU8C3/U8C1 planerï¼Œå³RGB, BGRç­‰ï¼Œä¸æ”¯æŒYUVã€‚
+ */
+ static int IveResizeOnce(const IVE_IMAGE_S *src, IVE_IMAGE_S *dst, uint32_t dstWidth, uint32_t dstHeight)
+ {
+@@ -288,15 +288,15 @@ static int IveResizeOnce(const IVE_IMAGE
+ 
+     HI_ASSERT((src->u32Height % HI_OVEN_BASE) == 0 && (src->u32Width % HI_OVEN_BASE) == 0);
+ 
+-    // ×¼±¸resizeCtrl
++    // å‡†å¤‡resizeCtrl
+     resizeCtrl.enMode = IVE_RESIZE_MODE_LINEAR;
+     resizeCtrl.u16Num = 1;
+-    // pstResizeCtrl.stMemÄÚ´æÖÁÉÙĞèÒª25*U8C1_NUM + 49 * (pstResizeCtrl->u16Num - U8C1_NUM)×Ö½Ú£¬
+-    // ÆäÖĞU8C1_NUMÎª»ìºÏÍ¼ÏñÊı×éÖĞU8C1Í¼ÏñµÄÊıÄ¿¡£
++    // pstResizeCtrl.stMemå†…å­˜è‡³å°‘éœ€è¦25*U8C1_NUM + 49 * (pstResizeCtrl->u16Num - U8C1_NUM)å­—èŠ‚ï¼Œ
++    // å…¶ä¸­U8C1_NUMä¸ºæ··åˆå›¾åƒæ•°ç»„ä¸­U8C1å›¾åƒçš„æ•°ç›®ã€‚
+     ret = IveCtrlAlloc(&resizeCtrl.stMem, resizeCtrlNum * resizeCtrl.u16Num, false);
+     HI_ASSERT(!ret);
+ 
+-    // ´´½¨¿ÕµÄdst img
++    // åˆ›å»ºç©ºçš„dst img
+     ret = IveImgCreate(dst, src->enType, dstWidth, dstHeight);
+     HI_ASSERT(!ret);
+ 
+@@ -325,18 +325,18 @@ static int IveResizeOnce(const IVE_IMAGE
+ /**
+     resize ive image.
+ 
+-    ¶à´Îµ÷ÓÃive_resizeÒÔÊµÏÖÈÎÒâ±ÈÀıµÄËõ·Å¡£
+-    Îª¼ò»¯ÊµÏÖ£¬Ô¼¶¨Ã¿´ÎËõ·Å×î´ó14±¶£¬´ËÊ±¿í¡¢¸ß½öĞè2ÏñËØ¶ÔÆë¡£
++    å¤šæ¬¡è°ƒç”¨ive_resizeä»¥å®ç°ä»»æ„æ¯”ä¾‹çš„ç¼©æ”¾ã€‚
++    ä¸ºç®€åŒ–å®ç°ï¼Œçº¦å®šæ¯æ¬¡ç¼©æ”¾æœ€å¤§14å€ï¼Œæ­¤æ—¶å®½ã€é«˜ä»…éœ€2åƒç´ å¯¹é½ã€‚
+ 
+-    µ±Á½¸ö·½ÏòËõ·Å·½Ïò²»Í¬Ê±£¬ÀıÈçÒ»Ïò(ÈçX)·Å´ó£¬ÁíÒ»ÏòËõĞ¡±¶£¬ÎŞĞèÌØ±ğ´¦Àí¡£
+-    ´ËÊ±Ä³¸ö·½Ïò»òÁ½¸ö·½ÏòËõ·Å±ÈÀı¾ù³¬±ê£¬Ò²²»ĞèÒªÌØ±ğ´¦Àí¡£
++    å½“ä¸¤ä¸ªæ–¹å‘ç¼©æ”¾æ–¹å‘ä¸åŒæ—¶ï¼Œä¾‹å¦‚ä¸€å‘(å¦‚X)æ”¾å¤§ï¼Œå¦ä¸€å‘ç¼©å°å€ï¼Œæ— éœ€ç‰¹åˆ«å¤„ç†ã€‚
++    æ­¤æ—¶æŸä¸ªæ–¹å‘æˆ–ä¸¤ä¸ªæ–¹å‘ç¼©æ”¾æ¯”ä¾‹å‡è¶…æ ‡ï¼Œä¹Ÿä¸éœ€è¦ç‰¹åˆ«å¤„ç†ã€‚
+ */
+ int IveImgResize(
+     const IVE_IMAGE_S *src, IVE_IMAGE_S *dst,
+     uint32_t dstWidth, uint32_t dstHeight)
+ {
+-    static const double rateMax = 14.0; // ·Å´óµÄ×î´ó±¶Êı
+-    static const double rateMin = 1.0 / rateMax; // ·Å´óµÄ×îĞ¡±¶Êı£¬Ò²¼´ËõĞ¡µÄ×î´ó±ÈÀı
++    static const double rateMax = 14.0; // æ”¾å¤§çš„æœ€å¤§å€æ•°
++    static const double rateMin = 1.0 / rateMax; // æ”¾å¤§çš„æœ€å°å€æ•°ï¼Œä¹Ÿå³ç¼©å°çš„æœ€å¤§æ¯”ä¾‹
+ 
+     uint32_t srcWidth = src->u32Width;
+     uint32_t srcHeight = src->u32Height;
+@@ -346,17 +346,17 @@ int IveImgResize(
+     HI_ASSERT(!(dstWidth % HI_OVEN_BASE) && !(dstHeight % HI_OVEN_BASE));
+     int ret;
+ 
+-    // ·Å´ó±¶Êı
+-    double widthRate = ((double)dstWidth) / (double)srcWidth; // >1±íÊ¾·Å´ó£¬<1±íÊ¾ËõĞ¡
+-    double heightRate = ((double)dstHeight) / (double)srcHeight; // >1±íÊ¾·Å´ó£¬<1±íÊ¾ËõĞ¡
++    // æ”¾å¤§å€æ•°
++    double widthRate = ((double)dstWidth) / (double)srcWidth; // >1è¡¨ç¤ºæ”¾å¤§ï¼Œ<1è¡¨ç¤ºç¼©å°
++    double heightRate = ((double)dstHeight) / (double)srcHeight; // >1è¡¨ç¤ºæ”¾å¤§ï¼Œ<1è¡¨ç¤ºç¼©å°
+ 
+-    // ¸ù¾İËõ·Å±¶Êı·Ö±ğ´¦Àí
++    // æ ¹æ®ç¼©æ”¾å€æ•°åˆ†åˆ«å¤„ç†
+     if (widthRate > rateMax || widthRate < rateMin ||
+         heightRate > rateMax || heightRate < rateMin) {
+-        // Ëõ·Å±¶Êı³¬¹ıÒ»´ÎIVE resizeµÄ×î´óÖµÊ±£¬µİ¹é´¦Àí ...
++        // ç¼©æ”¾å€æ•°è¶…è¿‡ä¸€æ¬¡IVE resizeçš„æœ€å¤§å€¼æ—¶ï¼Œé€’å½’å¤„ç† ...
+         uint32_t midWidth = (uint32_t)IntZoomTo((int)srcWidth, widthRate, rateMin, rateMax);
+         uint32_t midHeight = (uint32_t)IntZoomTo((int)srcHeight, heightRate, rateMin, rateMax);
+-        // È·±£ÎªÅ¼Êı¡£ÎªÆæÊıÊ±£¬·Å´óÔò¼õÒ»£¬·ñÔò¼ÓÒ»
++        // ç¡®ä¿ä¸ºå¶æ•°ã€‚ä¸ºå¥‡æ•°æ—¶ï¼Œæ”¾å¤§åˆ™å‡ä¸€ï¼Œå¦åˆ™åŠ ä¸€
+         if (midWidth % HI_OVEN_BASE) {
+             midWidth += widthRate > 1 ? -1 : 1;
+         }
+@@ -367,16 +367,16 @@ int IveImgResize(
+         LOGD("@@@ multi-lev ive resize, src={%u, %u}, mid={%u, %u}, dst={%u, %u}, rate={%.4f, %.4f}\n",
+             srcWidth, srcHeight, midWidth, midHeight, dstWidth, dstHeight, widthRate, heightRate);
+ 
+-        // Ëõ·ÅÒ»´Î
++        // ç¼©æ”¾ä¸€æ¬¡
+         IVE_IMAGE_S midImg;
+         ret = IveResizeOnce(src, &midImg, midWidth, midHeight);
+         HI_CHK_RET(ret, "IveResizeOnce(dw=%u, dh=%u) FAIL\n", midWidth, midHeight);
+ 
+-        // ÒÔmidImgÎªsrcImgµİ¹éµ÷ÓÃ
++        // ä»¥midImgä¸ºsrcImgé€’å½’è°ƒç”¨
+         ret = IveImgResize(&midImg, dst, dstWidth, dstHeight);
+         IveImgDestroy(&midImg);
+         HI_CHK_RET(ret, "sub call IveImgResize(dw=%u, dh=%u) FAIL\n", dstWidth, dstHeight);
+-    } else { // Ëõ·Å±¶ÊıÎ´³¬¹ıÒ»´ÎIVE resizeµÄ×î´óÖµ£¬Ö±½ÓÍê³É
++    } else { // ç¼©æ”¾å€æ•°æœªè¶…è¿‡ä¸€æ¬¡IVE resizeçš„æœ€å¤§å€¼ï¼Œç›´æ¥å®Œæˆ
+         ret = IveResizeOnce(src, dst, dstWidth, dstHeight);
+         HI_CHK_RET(ret, "IveResizeOnce(dw=%u, dh=%u) FAIL\n", dstWidth, dstHeight);
+     }
+@@ -418,14 +418,14 @@ int ImgRgbToBgr(IVE_IMAGE_S *img)
+     uint8_t c;
+     int i, j;
+ 
+-    // ÓÃIVE DMAÌæ´ú£¬ÒÔÌáÉıĞÔÄÜ
++    // ç”¨IVE DMAæ›¿ä»£ï¼Œä»¥æå‡æ€§èƒ½
+     HI_ASSERT(img->enType == IVE_IMAGE_TYPE_U8C3_PLANAR);
+     HI_ASSERT(img->au32Stride[0] >= img->u32Width);
+     HI_ASSERT(img->au32Stride[1] >= img->u32Width);
+-    HI_ASSERT(img->au32Stride[2] >= img->u32Width); // 2: au32StrideÊı×éÏÂ±ê,²»Ô½½ç
++    HI_ASSERT(img->au32Stride[2] >= img->u32Width); // 2: au32Strideæ•°ç»„ä¸‹æ ‡,ä¸è¶Šç•Œ
+ 
+     rp = (uint8_t*)(uintptr_t)img->au64VirAddr[0];
+-    bp = (uint8_t*)(uintptr_t)img->au64VirAddr[2]; // 2: VirAddrÊı×éÏÂ±ê,²»Ô½½ç
++    bp = (uint8_t*)(uintptr_t)img->au64VirAddr[2]; // 2: VirAddræ•°ç»„ä¸‹æ ‡,ä¸è¶Šç•Œ
+     HI_ASSERT(rp && bp);
+     for (i = 0; i < img->u32Height; i++) {
+         for (j = 0; j < img->u32Width; j++) {
+@@ -434,13 +434,13 @@ int ImgRgbToBgr(IVE_IMAGE_S *img)
+             bp[j] = c;
+         }
+         rp += img->au32Stride[0];
+-        bp += img->au32Stride[2]; // 2: au32StrideÊı×éÏÂ±ê,²»Ô½½ç
++        bp += img->au32Stride[2]; // 2: au32Strideæ•°ç»„ä¸‹æ ‡,ä¸è¶Šç•Œ
+     }
+     return 0;
+ }
+ 
+ /**
+-    cut YUV P/SP image to U8C1 image (»Ò¶ÈÍ¼Ïñ).
++    cut YUV P/SP image to U8C1 image (ç°åº¦å›¾åƒ).
+ */
+ int ImgYuvCropU8c1(
+     const IVE_IMAGE_S *src, IVE_IMAGE_S *dst,
+@@ -456,7 +456,7 @@ int ImgYuvCropU8c1(
+     HI_ASSERT(src->au64VirAddr[0]);
+     HI_ASSERT(src->au32Stride[0] >= src->u32Width);
+ 
+-    // boxµÄwidth/heightµ÷ÕûÎª2µÄ±¶Êı
++    // boxçš„width/heightè°ƒæ•´ä¸º2çš„å€æ•°
+     if (boxWidth == 1 || boxHeight == 1) {
+         LOGE("box dstWidth=1 && dstHeight=1\n");
+         return -1;
+@@ -470,11 +470,11 @@ int ImgYuvCropU8c1(
+         boxHeight--;
+     }
+ 
+-    // ´´½¨¿ÕµÄdst img
++    // åˆ›å»ºç©ºçš„dst img
+     ret = IveImgCreate(dst, IVE_IMAGE_TYPE_U8C1, boxWidth, boxHeight);
+     HI_ASSERT(!ret);
+ 
+-    // ÓÃIVE DMAÀ´¸´ÖÆ£¬ÒÔÌáÉıĞÔÄÜ
++    // ç”¨IVE DMAæ¥å¤åˆ¶ï¼Œä»¥æå‡æ€§èƒ½
+     // copy box from src to dst
+     int srcStride = src->au32Stride[0];
+     int dstStride = dst->au32Stride[0];
+@@ -489,7 +489,7 @@ int ImgYuvCropU8c1(
+     }
+     HI_ASSERT(dstPtr - dstBuf == boxHeight * dstStride);
+ 
+-    // µ±userÎ´Ö¸¶¨dstWidth/dstHeight£¬»òÖ¸¶¨µÄÖµÓëboxÏàÍ¬Ê±£¬ÎŞĞèresize
++    // å½“useræœªæŒ‡å®šdstWidth/dstHeightï¼Œæˆ–æŒ‡å®šçš„å€¼ä¸boxç›¸åŒæ—¶ï¼Œæ— éœ€resize
+     if (dstWidth <= 0 || dstHeight <= 0 ||
+         (dstWidth == boxWidth && dstHeight == boxHeight)) {
+         return 0;
+@@ -559,7 +559,7 @@ int FrmToRgbImg(VIDEO_FRAME_INFO_S* srcF
+         return -1;
+     }
+ 
+-    // ·Ö±ğ¸´ÖÆ3¸öÍ¨µÀµÄµØÖ·
++    // åˆ†åˆ«å¤åˆ¶3ä¸ªé€šé“çš„åœ°å€
+     for (int i = 0; i < chnNum; i++) {
+         srcImg.au64PhyAddr[i] = srcFrm->stVFrame.u64PhyAddr[i];
+         srcImg.au64VirAddr[i] = srcFrm->stVFrame.u64VirAddr[i];
+@@ -584,11 +584,11 @@ int FrmToRgbImg(VIDEO_FRAME_INFO_S* srcF
+ 
+ /**
+     video frame to ive image.
+-    ¸´ÖÆÊı¾İÖ¸Õë£¬²»¸´ÖÆÊı¾İ¡£
++    å¤åˆ¶æ•°æ®æŒ‡é’ˆï¼Œä¸å¤åˆ¶æ•°æ®ã€‚
+ */
+ int FrmToOrigImg(const VIDEO_FRAME_INFO_S* frm, IVE_IMAGE_S *img)
+ {
+-    static const int chnNum = 2; // Ä¿Ç°Ö»Ö§³ÖYUV420/422£¬Òò´ËÖ»¸´ÖÆ2¸öÍ¨µÀµÄµØÖ·
++    static const int chnNum = 2; // ç›®å‰åªæ”¯æŒYUV420/422ï¼Œå› æ­¤åªå¤åˆ¶2ä¸ªé€šé“çš„åœ°å€
+     PIXEL_FORMAT_E pixelFormat = frm->stVFrame.enPixelFormat;
+ 
+     if (memset_s(img, sizeof(*img), 0, sizeof(*img)) != EOK) {
+@@ -655,7 +655,7 @@ int ImgYuvCrop(const IVE_IMAGE_S *src, I
+     HI_ASSERT(src->au64VirAddr[0]);
+     HI_ASSERT(src->au32Stride[0] >= src->u32Width);
+ 
+-    // boxµÄwidth/heightµ÷ÕûÎª2µÄ±¶Êı
++    // boxçš„width/heightè°ƒæ•´ä¸º2çš„å€æ•°
+     if (boxWidth == 1 || boxHeight == 1) {
+         LOGE("box dstWidth=1 && dstHeight=1\n");
+         return -1;
+@@ -668,10 +668,10 @@ int ImgYuvCrop(const IVE_IMAGE_S *src, I
+         box.ymax--;
+         boxHeight--;
+     }
+-    // ´´½¨¿ÕµÄdst img
++    // åˆ›å»ºç©ºçš„dst img
+     ret = IveImgCreate(dst, src->enType, boxWidth, boxHeight);
+     HI_ASSERT(!ret); 
+-    // ÓÃIVE DMAÀ´¸´ÖÆ£¬ÒÔÌáÉıĞÔÄÜ
++    // ç”¨IVE DMAæ¥å¤åˆ¶ï¼Œä»¥æå‡æ€§èƒ½
+     // copy box from src to dst
+ 	// Y
+ 	int srcStrideY = src->au32Stride[0];
+diff -urpBN hiopenais/src/mpp_help/osd_img.c hiopenais_modify/src/mpp_help/osd_img.c
+--- hiopenais/src/mpp_help/osd_img.c	2021-03-29 19:19:04.000000000 +0800
++++ hiopenais_modify/src/mpp_help/osd_img.c	2021-07-08 20:06:19.581426162 +0800
+@@ -248,7 +248,8 @@ int TxtRgnInit(HI_OSD_ATTR_S* rgnAttr,
+     if (!str) {
+         HI_ASSERT(0);
+     }
+-    static const uint32_t bgAlpha = 64; // [0,128]ï¼Œæ–‡å­—èƒŒæ™¯å—é€æ˜åº¦ï¼Œè¶Šå¤§åˆ™èƒŒæ™¯å—é¢œè‰²è¶Šæ·±ï¼Œ0è¡¨ç¤ºæ— èƒŒæ™¯å—ï¼Œå³å®Œå…¨é€æ˜
++    //static const uint32_t bgAlpha = 64; // [0,128]ï¼Œæ–‡å­—èƒŒæ™¯å—é€æ˜åº¦ï¼Œè¶Šå¤§åˆ™èƒŒæ™¯å—é¢œè‰²è¶Šæ·±ï¼Œ0è¡¨ç¤ºæ— èƒŒæ™¯å—ï¼Œå³å®Œå…¨é€æ˜
++    static const uint32_t bgAlpha = 64;
+     static const uint32_t fgAlpha = 128; // [0,128]ï¼Œæ–‡å­—çš„äº®åº¦ï¼Œè¶Šå¤§åˆ™æ–‡å­—è¶Šäº®
+ 
+     if (memset_s(rgnAttr, sizeof(*rgnAttr), 0, sizeof(*rgnAttr)) != EOK) {
+@@ -271,4 +272,39 @@ int TxtRgnInit(HI_OSD_ATTR_S* rgnAttr,
+     rgnAttr->stContent.stFontSize.u32Height = fontHeight <= 0 ? OSD_FONT_HEIGHT_DEF : fontHeight;
+     return 0;
+ }
++int TxtRgnInits(HI_OSD_ATTR_S* rgnAttr,int boxesNum,
++    const char* str, const RectBox items[],
++    uint32_t color, int fontWidth, int fontHeight)
++{
++    HI_ASSERT(rgnAttr);
++    if (!str) {
++        HI_ASSERT(0);
++    }
++    static const uint32_t bgAlpha = 64; // [0,128]ï¼Œæ–‡å­—èƒŒæ™¯å—é€æ˜åº¦ï¼Œè¶Šå¤§åˆ™èƒŒæ™¯å—é¢œè‰²è¶Šæ·±ï¼Œ0è¡¨ç¤ºæ— èƒŒæ™¯å—ï¼Œå³å®Œå…¨é€æ˜
++    static const uint32_t fgAlpha = 128; // [0,128]ï¼Œæ–‡å­—çš„äº®åº¦ï¼Œè¶Šå¤§åˆ™æ–‡å­—è¶Šäº®
++
++    if (memset_s(rgnAttr, sizeof(*rgnAttr), 0, sizeof(*rgnAttr)) != EOK) {
++        HI_ASSERT(0);
++    }
++    for (int i = 0; i < boxesNum; i++) {
++    const RectBox *item = &items[i];
++    rgnAttr->u32DispNum = boxesNum;
++    rgnAttr->astDispAttr[i].bShow = (str && *str) ? HI_TRUE : HI_FALSE;
++    rgnAttr->astDispAttr[i].enBindedMod = HI_OSD_BINDMOD_BUTT;
++    rgnAttr->astDispAttr[i].ChnHdl = UINT32_MAX;
++    rgnAttr->astDispAttr[i].u32BgAlpha = bgAlpha;
++    rgnAttr->astDispAttr[i].u32FgAlpha = fgAlpha;
++    rgnAttr->astDispAttr[i].enCoordinate = HI_OSD_COORDINATE_ABS_COOR;
++    rgnAttr->astDispAttr[i].stStartPos.s32X = items->xmin;
++    rgnAttr->astDispAttr[i].stStartPos.s32Y = items->ymin;
++    rgnAttr->astDispAttr[i].enAttachDest = ATTACH_JPEG_MAIN;
++    rgnAttr->stContent.enType = HI_OSD_TYPE_STRING;
++    rgnAttr->stContent.u32Color = color; // ARGB #FFFF0000 Red
++    HiStrxfrm(rgnAttr->stContent.szStr, str, sizeof(rgnAttr->stContent.szStr));
++    rgnAttr->stContent.stFontSize.u32Width = fontWidth <= 0 ? OSD_FONT_WIDTH_DEF : fontWidth;
++    rgnAttr->stContent.stFontSize.u32Height = fontHeight <= 0 ? OSD_FONT_HEIGHT_DEF : fontHeight;
++    }
++    return 0;
++}
++
+ 
+diff -urpBN hiopenais/src/mpp_help/osd_img.h hiopenais_modify/src/mpp_help/osd_img.h
+--- hiopenais/src/mpp_help/osd_img.h	2021-03-29 19:19:03.000000000 +0800
++++ hiopenais_modify/src/mpp_help/osd_img.h	2021-06-26 16:05:26.081640845 +0800
+@@ -32,89 +32,91 @@ extern "C" {
+ /**
+     OSD region set.
+ 
+-    OsdSet±íÊ¾Ò»¸öOSD region¼¯ºÏ. ¿ÉÒÔÔÚOsdSetÖĞ´´½¨ºÍÏú»Ùregion, ÎªregionÉèÖÃÊôĞÔÒÔÏÔÊ¾»ò²»ÏÔÊ¾.
+-    OsdSet»ùÓÚÖĞ¼ä¼şHI_OSDÊµÏÖ. Ïà¶ÔÓÚHI_OSD£¬Ôö¼ÓÁËregion¾ä±ú·ÖÅä/ÊÍ·Å¹ÜÀí, ÒÔ¼ò»¯Ê¹ÓÃ.
++    OsdSetè¡¨ç¤ºä¸€ä¸ªOSD regioné›†åˆ. å¯ä»¥åœ¨OsdSetä¸­åˆ›å»ºå’Œé”€æ¯region, ä¸ºregionè®¾ç½®å±æ€§ä»¥æ˜¾ç¤ºæˆ–ä¸æ˜¾ç¤º.
++    OsdSetåŸºäºä¸­é—´ä»¶HI_OSDå®ç°. ç›¸å¯¹äºHI_OSDï¼Œå¢åŠ äº†regionå¥æŸ„åˆ†é…/é‡Šæ”¾ç®¡ç†, ä»¥ç®€åŒ–ä½¿ç”¨.
+ */
+ typedef struct OsdSet OsdSet;
+ 
+ /**
+-    ´´½¨OsdSet.
++    åˆ›å»ºOsdSet.
+ 
+-    @param bindMod[in]: OSD°ó¶¨µÄMPP×é¼ş.
++    @param bindMod[in]: OSDç»‘å®šçš„MPPç»„ä»¶.
+     @param modHnd[in]: Binded Module Handle.
+     @param chnHnd[in]: Binded Channel Handle.
+ */
+ OsdSet* OsdsCreate(HI_OSD_BIND_MOD_E bindMod, uint32_t modHnd, uint32_t chnHnd);
+ 
+ /**
+-    Ïú»ÙOsdSet.
++    é”€æ¯OsdSet.
+ */
+ void OsdsDestroy(OsdSet* self);
+ 
+ /**
+-    Ïú»ÙOsdSetÖĞµÄËùÓĞregion.
++    é”€æ¯OsdSetä¸­çš„æ‰€æœ‰region.
+ */
+ void OsdsClear(OsdSet* self);
+ 
+ /**
+-    ÔÚOsdSetÖĞ´´½¨Ò»¸öregion.
++    åœ¨OsdSetä¸­åˆ›å»ºä¸€ä¸ªregion.
+ 
+-    @return ³É¹¦Ôò·µ»Ø´´½¨µÄregionµÄ¾ä±ú£¬·ñÔò·µ»Ø-1. µ±OsdSetÖĞµÄregionÓÃÍêºócreate»áÊ§°Ü.
++    @return æˆåŠŸåˆ™è¿”å›åˆ›å»ºçš„regionçš„å¥æŸ„ï¼Œå¦åˆ™è¿”å›-1. å½“OsdSetä¸­çš„regionç”¨å®Œåcreateä¼šå¤±è´¥.
+ */
+ int OsdsCreateRgn(OsdSet* self);
+ 
+ /**
+-    Ïú»ÙOsdSetÖĞÖ¸¶¨µÄregion.
++    é”€æ¯OsdSetä¸­æŒ‡å®šçš„region.
+ 
+-    @param rgnHnd[in]: OsdsCreateRgn()Îªregion·ÖÅäµÄ¾ä±ú.
++    @param rgnHnd[in]: OsdsCreateRgn()ä¸ºregionåˆ†é…çš„å¥æŸ„.
+ */
+ void OsdsDestroyRgn(OsdSet* self, int rgnHnd);
+ 
+ /**
+-    ÎªOsdSetÖĞµÄÖ¸¶¨regionÉèÖÃÊôĞÔ.
++    ä¸ºOsdSetä¸­çš„æŒ‡å®šregionè®¾ç½®å±æ€§.
+ 
+-    @param rgnHnd[in]: OsdsCreateRgn()Îªregion·ÖÅäµÄ¾ä±ú.
+-    @param rgnAttr[in]: ÖÃÎªNULL±íÊ¾²»ÏÔÊ¾region£¬·ñÔò±íÊ¾ÓÃrgnAttrµÄÊôĞÔÖµÏÔÊ¾region.
++    @param rgnHnd[in]: OsdsCreateRgn()ä¸ºregionåˆ†é…çš„å¥æŸ„.
++    @param rgnAttr[in]: ç½®ä¸ºNULLè¡¨ç¤ºä¸æ˜¾ç¤ºregionï¼Œå¦åˆ™è¡¨ç¤ºç”¨rgnAttrçš„å±æ€§å€¼æ˜¾ç¤ºregion.
+ */
+ int OsdsSetRgn(OsdSet* self, int rgnHnd, const HI_OSD_ATTR_S* rgnAttr);
+ 
+ /**
+-    »ñµÃOsdSetÖĞÖ¸¶¨regionµÄÊôĞÔÖµ.
++    è·å¾—OsdSetä¸­æŒ‡å®šregionçš„å±æ€§å€¼.
+ 
+-    @param rgnHnd[in]: OsdsCreateRgn()Îªregion·ÖÅäµÄ¾ä±ú.
+-    @param rgnAttr[out]: Èô³É¹¦£¬Ôò·µ»ØregionµÄÊôĞÔÖµ.
++    @param rgnHnd[in]: OsdsCreateRgn()ä¸ºregionåˆ†é…çš„å¥æŸ„.
++    @param rgnAttr[out]: è‹¥æˆåŠŸï¼Œåˆ™è¿”å›regionçš„å±æ€§å€¼.
+ */
+ int OsdsGetRgn(OsdSet* self, int rgnHnd, HI_OSD_ATTR_S* rgnAttr);
+ 
+ /**
+-    ÉèÖÃÎÄ±¾regionµÄÊôĞÔÖµ.
++    è®¾ç½®æ–‡æœ¬regionçš„å±æ€§å€¼.
+ 
+-    ÉèÖÃºóµÄrgnAttr¿ÉÓÃÓÚ`OsdsSetRgn()`£¬ÒÔÉèÖÃºÍÏÔÊ¾Ö¸¶¨µÄregion.
++    è®¾ç½®åçš„rgnAttrå¯ç”¨äº`OsdsSetRgn()`ï¼Œä»¥è®¾ç½®å’Œæ˜¾ç¤ºæŒ‡å®šçš„region.
+ 
+-    @param str[in]: ´ıÏÔÊ¾µÄ×Ö·û´®ÎÄ±¾.
+-    @param begX[in]: ÏÔÊ¾ÎÄ±¾µÄÆğµãµÄX×ø±ê.
+-    @param begY[in]: ÏÔÊ¾ÎÄ±¾µÄÆğµãµÄY×ø±ê.
+-    @param color[in]: ÎÄ±¾µÄÑÕÉ«. ARGB1555¸ñÊ½.
+-    @param foutWidth[in]: ×ÖÌåµÄwidth(ÏñËØ). ÖÃÎª-1±íÊ¾²ÉÓÃÄ¬ÈÏÖµ.
+-    @param foutHeight[in]: ×ÖÌåµÄheight(ÏñËØ). ÖÃÎª-1±íÊ¾²ÉÓÃÄ¬ÈÏÖµ.
++    @param str[in]: å¾…æ˜¾ç¤ºçš„å­—ç¬¦ä¸²æ–‡æœ¬.
++    @param begX[in]: æ˜¾ç¤ºæ–‡æœ¬çš„èµ·ç‚¹çš„Xåæ ‡.
++    @param begY[in]: æ˜¾ç¤ºæ–‡æœ¬çš„èµ·ç‚¹çš„Yåæ ‡.
++    @param color[in]: æ–‡æœ¬çš„é¢œè‰². ARGB1555æ ¼å¼.
++    @param foutWidth[in]: å­—ä½“çš„width(åƒç´ ). ç½®ä¸º-1è¡¨ç¤ºé‡‡ç”¨é»˜è®¤å€¼.
++    @param foutHeight[in]: å­—ä½“çš„height(åƒç´ ). ç½®ä¸º-1è¡¨ç¤ºé‡‡ç”¨é»˜è®¤å€¼.
+ */
+ int TxtRgnInit(HI_OSD_ATTR_S* rgnAttr,
+     const char* str, uint32_t begX, uint32_t begY,
+     uint32_t color, int fontWidth, int fontHeight);
+-
++int TxtRgnInits(HI_OSD_ATTR_S* rgnAttr,int boxesNum,
++    const char* str, const RectBox items[],
++    uint32_t color, int fontWidth, int fontHeight);
+ /**
+-    ³õÊ¼»¯OsdSet lib.
++    åˆå§‹åŒ–OsdSet lib.
+ 
+-    Í¨³£ÔÚappÆô¶¯Ê±µ÷ÓÃ.
+-    ¶ÔÓÚHiOpenais£¬²å¼ş²»Ó¦µ÷ÓÃ´Ëº¯Êı¡£
++    é€šå¸¸åœ¨appå¯åŠ¨æ—¶è°ƒç”¨.
++    å¯¹äºHiOpenaisï¼Œæ’ä»¶ä¸åº”è°ƒç”¨æ­¤å‡½æ•°ã€‚
+ */
+ int OsdLibInit(void);
+ 
+ /**
+-    È¥³õÊ¼»¯OsdSet lib.
++    å»åˆå§‹åŒ–OsdSet lib.
+ 
+-    Í¨³£ÔÚappÖÕÖ¹Ê±µ÷ÓÃ.
+-    ¶ÔÓÚHiOpenais£¬²å¼ş²»Ó¦µ÷ÓÃ´Ëº¯Êı¡£
++    é€šå¸¸åœ¨appç»ˆæ­¢æ—¶è°ƒç”¨.
++    å¯¹äºHiOpenaisï¼Œæ’ä»¶ä¸åº”è°ƒç”¨æ­¤å‡½æ•°ã€‚
+ */
+ int OsdLibExit(void);
+ 
+diff -urpBN hiopenais/src/plug_demo/cnn_trash_classify/cnn_trash_classify.c hiopenais_modify/src/plug_demo/cnn_trash_classify/cnn_trash_classify.c
+--- hiopenais/src/plug_demo/cnn_trash_classify/cnn_trash_classify.c	2021-07-02 11:04:22.000000000 +0800
++++ hiopenais_modify/src/plug_demo/cnn_trash_classify/cnn_trash_classify.c	2021-06-26 10:59:18.295331693 +0800
+@@ -24,7 +24,6 @@
+ #include "hi_ext_util.h"
+ #include "mpp_help.h"
+ #include "ai_plug.h"
+-#include "audio_test.h"
+ 
+ #define PLUG_UUID          "\"hi.cnn_trash_classify\""
+ #define PLUG_DESC          "\"åƒåœ¾åˆ†ç±»(cnn)\""     // UTF8 encode
+@@ -34,58 +33,17 @@
+ // resnet_inst.wkåŸºäºå¼€æºæ¨¡å‹resnet18é‡è®­ï¼Œé€šè¿‡.caffemodelè½¬wkçš„ç»“æœ
+ #define MODEL_FILE_TRASH    "./plugs/resnet_inst.wk" // å¼€æºæ¨¡å‹è½¬æ¢
+ 
+-#define RET_NUM_MAX         4 		// è¿”å›numberçš„æœ€å¤§æ•°ç›®trr
+-#define SCORE_MAX           4096 	// æœ€å¤§æ¦‚ç‡å¯¹åº”çš„score
+-#define THRESH_MIN          30 		// å¯æ¥å—çš„æ¦‚ç‡é˜ˆå€¼(è¶…è¿‡æ­¤å€¼åˆ™è¿”å›ç»™app)
+-
+-#define TXT_BEGX           20
+-#define TXT_BEGY           20
+-#define FONT_WIDTH         32
+-#define FONT_HEIGHT        40
+-#define AUDIO_CASE_TWO     2
+-#define AUDIO_SCORE        90 		// ç½®ä¿¡åº¦å¯è‡ªè¡Œé…ç½®
+-#define AUDIO_FRAME        14 		// æ¯éš”15å¸§è¯†åˆ«ä¸€æ¬¡ï¼Œå¯è‡ªè¡Œé…ç½®
++#define RET_NUM_MAX         4 // è¿”å›numberçš„æœ€å¤§æ•°ç›®trr
++#define SCORE_MAX           4096 // æœ€å¤§æ¦‚ç‡å¯¹åº”çš„score
++#define THRESH_MIN          30 // å¯æ¥å—çš„æ¦‚ç‡é˜ˆå€¼(è¶…è¿‡æ­¤å€¼åˆ™è¿”å›ç»™app)
++
++#define TXT_BEGX            20
++#define TXT_BEGY            20
++#define FONT_WIDTH          32
++#define FONT_HEIGHT         40
+ 
+ static OsdSet* g_osdsTrash = NULL;
+ static HI_S32 g_osd0Trash = -1;
+-static int g_num = 108;
+-static int g_count = 0;
+-static pthread_t g_thrdId = 0;
+-static int g_supportAudio = 0;
+-
+-static SkPair g_stmChn = {
+-    .in = -1,
+-    .out = -1
+-};
+-
+-static void PlayAudio(const RecogNumInfo items)
+-{
+-	if (g_count < AUDIO_FRAME) {
+-		g_count++;
+-		return;
+-	}
+-
+-	const RecogNumInfo *item = &items;
+-	uint32_t score = item->score * 100 / 4096;
+-	if ((score > AUDIO_SCORE) && (g_num != item->num)) {
+-		g_num = item->num;
+-		audio_test(AUDIO_CASE_TWO, g_num, -1);
+-	}
+-	g_count = 0;
+-}
+-
+-static void* GetAudioFileName(void* arg)
+-{
+-	RecogNumInfo resBuf = {0};
+-	int ret;
+-	
+-	while(1) {
+-		ret = FdReadMsg(g_stmChn.in, &resBuf, sizeof(RecogNumInfo));
+-		if (ret == sizeof(RecogNumInfo)) {
+-			PlayAudio(resBuf);
+-		}
+-	}
+-}
+ 
+ static const HI_CHAR CNN_TRASH_CLASSIFY[] = "{"
+     "\"uuid\": " PLUG_UUID ","
+@@ -112,28 +70,13 @@ static HI_S32 CnnTrashClassifyLoad(uintp
+ 
+     ret = CnnCreate(&self, MODEL_FILE_TRASH);
+     *model = ret < 0 ? 0 : (uintptr_t)self;
+-
+-	if (GetCfgBool("audio_player:support_audio", true)) {
+-		ret = SkPairCreate(&g_stmChn);
+-		HI_ASSERT(ret == 0);
+-		if (pthread_create(&g_thrdId, NULL, GetAudioFileName, NULL) < 0) {
+-			HI_ASSERT(0);
+-		}
+-		g_supportAudio = 1;
+-	}
+-	
+-	return ret;
++    return ret;
+ }
+ 
+ static HI_S32 CnnTrashClassifyUnload(uintptr_t model)
+ {
+     CnnDestroy((SAMPLE_SVP_NNIE_CFG_S*)model);
+     OsdsClear(g_osdsTrash);
+-	if (g_supportAudio == 1) {
+-		SkPairDestroy(&g_stmChn);
+-		pthread_join(g_thrdId, NULL);
+-	}
+-	
+     return HI_SUCCESS;
+ }
+ 
+@@ -167,7 +110,7 @@ HI_CHAR* CnnTrashClassifyToJson(const Re
+ /**
+     å°†è®¡ç®—ç»“æœæ‰“åŒ…ä¸ºOSDæ˜¾ç¤ºå†…å®¹.
+ */
+-static HI_S32 CnnTrashClassifyToOsd(const RecogNumInfo items[], HI_S32 itemNum, HI_CHAR* buf, HI_S32 size)
++HI_S32 CnnTrashClassifyToOsd(const RecogNumInfo items[], HI_S32 itemNum, HI_CHAR* buf, HI_S32 size)
+ {
+     HI_S32 offset = 0;
+     HI_CHAR *trash_name = NULL;
+@@ -256,11 +199,6 @@ static HI_S32 CnnTrashClassifyCal(uintpt
+     HI_CHAR *jsonBuf = CnnTrashClassifyToJson(resBuf, reslen);
+     *resJson = jsonBuf;
+     CnnTrashClassifyToOsd(resBuf, reslen, osdBuf, sizeof(osdBuf));
+-	if (g_supportAudio == 1) {
+-		if (FdWriteMsg(g_stmChn.out, &resBuf[0], sizeof(RecogNumInfo)) != sizeof(RecogNumInfo)) {
+-			LOGE("FdWriteMsg FAIL\n"); 
+-		}
+-	}
+ 	
+     // ä»…å½“resJsonä¸æ­¤å‰è®¡ç®—å‘ç”Ÿå˜åŒ–æ—¶,æ‰é‡æ–°æ‰“OSDè¾“å‡ºæ–‡å­—
+     if (strcmp(osdBuf, prevOsd) != 0) {
+@@ -269,6 +207,7 @@ static HI_S32 CnnTrashClassifyCal(uintpt
+         // å åŠ å›¾å½¢åˆ°resFrmä¸­
+         HI_OSD_ATTR_S rgn;
+         TxtRgnInit(&rgn, osdBuf, TXT_BEGX, TXT_BEGY, ARGB1555_YELLOW2, FONT_WIDTH, FONT_HEIGHT);
++         LOGI("ss trash classify: %d\n",  g_osd0Trash);
+         OsdsSetRgn(g_osdsTrash, g_osd0Trash, &rgn);
+         LOGI("CNN trash classify: %s\n", osdBuf);
+     }
+diff -urpBN hiopenais/src/plug_demo/fasterRcnn_pcb/fasterRcnn_pcb.c hiopenais_modify/src/plug_demo/fasterRcnn_pcb/fasterRcnn_pcb.c
+--- hiopenais/src/plug_demo/fasterRcnn_pcb/fasterRcnn_pcb.c	1970-01-01 08:00:00.000000000 +0800
++++ hiopenais_modify/src/plug_demo/fasterRcnn_pcb/fasterRcnn_pcb.c	2021-07-14 20:00:27.204766962 +0800
+@@ -0,0 +1,501 @@
++/*
++ * Copyright (c) 2021 HiSilicon (Shanghai) Technologies CO., LIMITED.
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <sys/mman.h>
++#include <sys/stat.h>
++#include <sys/types.h>
++#include <unistd.h>
++#include <signal.h>
++#include <pthread.h>
++#include <sys/prctl.h>
++#include <math.h>
++#include <assert.h>
++
++#include "hi_common.h"
++#include "hi_comm_sys.h"
++#include "hi_comm_svp.h"
++#include "sample_comm.h"
++#include "sample_comm_svp.h"
++#include "sample_comm_nnie.h"
++#include "sample_comm_ive.h"
++#include "sample_svp_nnie_software.h"
++#include "sample_nnie_main.h"
++
++#include "nnie_sample_plug.h"
++
++#define SP_NNIE_PLUG
++
++#include <hi_ext_util.h>
++
++#define PLUG_UUID          "\"hi.fasterRcnn_pcb\""
++#define PLUG_DESC          "\"pcb_fasterRcnn(ä¼ ç»Ÿç®—å­)\""     // UTF8 encode
++
++#define FRM_WIDTH          640
++#define FRM_HEIGHT        480
++// resnet_inst.wkåŸºäºå¼€æºæ¨¡å‹resnet18é‡è®­ï¼Œé€šè¿‡.caffemodelè½¬wkçš„ç»“æœ
++#define MODEL_FILE_TRASH    "./plugs/inst_fasterrcnn_double_roipooling_cycle.wk" // å¼€æºæ¨¡å‹è½¬æ¢
++
++#define RET_NUM_MAX         21// è¿”å›numberçš„æœ€å¤§æ•°ç›®trr
++#define TENNIS_OBJ_MAX    255
++
++static OsdSet* g_osdsTrash = NULL;
++static HI_S32 g_osd0Trash = -1;
++
++int FasterRcnnCreate(SAMPLE_SVP_NNIE_CFG_S **model, const char* modelFile)
++{
++    SAMPLE_SVP_NNIE_CFG_S *self;
++    HI_U32 u32PicNum = 1;
++    HI_S32 s32Ret;
++
++    *model = NULL;
++    self = (SAMPLE_SVP_NNIE_CFG_S*)malloc(sizeof(*self));
++    assert(self);
++    if (memset_s(self, sizeof(*self), 0x00, sizeof(*self)) != EOK) {
++        HI_ASSERT(0);
++    }
++   
++    /* 
++    if (memset_s(self, sizeof(*self), 0x00, sizeof(*self)) != EOK) {
++        HI_ASSERT(0);
++    }
++    if (memset_s(&s_stFasterRcnnModel, sizeof(s_stFasterRcnnModel), 0, sizeof(s_stFasterRcnnModel)) != EOK) {
++        HI_ASSERT(0);
++    }
++    if (memset_s(&s_stFasterRcnnNnieParam, sizeof(s_stFasterRcnnNnieParam), 0, sizeof(s_stFasterRcnnNnieParam)) != EOK) {
++        HI_ASSERT(0);
++    }
++    if (memset_s(&s_stFasterRcnnSoftwareParam, sizeof(s_stFasterRcnnSoftwareParam), 0, sizeof(s_stFasterRcnnSoftwareParam))) {
++        HI_ASSERT(0);
++    }
++    */
++    SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S stInputDataIdx = {0};
++    SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S stProcSegIdx = {0};
++    
++
++    // Set configuration parameter
++     s_enNetType = SAMPLE_SVP_NNIE_VGG16_FASTER_RCNN;
++    self->pszPic = NULL;
++    self->u32MaxInputNum = u32PicNum; // max input image num in each batch
++    self->u32MaxRoiNum =300;
++    self->aenNnieCoreId[0] = SVP_NNIE_ID_0; // set NNIE core
++    self->aenNnieCoreId[1] = SVP_NNIE_ID_0;
++   
++  
++
++    // Sys init
++    SAMPLE_COMM_SVP_CheckSysInit();
++    //  FasterRcnn Load model
++    SAMPLE_SVP_TRACE_INFO(" FasterRcnn Load model!\n");
++    s32Ret = SAMPLE_COMM_SVP_NNIE_LoadModel((char*)modelFile, &s_stFasterRcnnModel);
++    SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret, FRCNN_FAIL_0, SAMPLE_SVP_ERR_LEVEL_ERROR,
++        "Error,SAMPLE_COMM_SVP_NNIE_LoadModel failed!\n");
++
++    // SDD parameter initialization
++    // Sdd software parameters are set in SAMPLE_SVP_NNIE_Sdd_SoftwareParaInit,
++    // if user has changed net struct, please make sure the parameter settings in
++    // SAMPLE_SVP_NNIE_Sdd_SoftwareParaInit function are correct
++    SAMPLE_SVP_TRACE_INFO("FasterRcnn parameter initialization!\n");
++    s_stFasterRcnnNnieParam.pstModel = &s_stFasterRcnnModel.stModel;
++    s_stFasterRcnnSoftwareParam.apcRpnDataLayerName[0] = "rpn_cls_score";
++    s_stFasterRcnnSoftwareParam.apcRpnDataLayerName[1] = "rpn_bbox_pred";
++    s32Ret = SAMPLE_SVP_NNIE_FasterRcnn_ParamInit(&self,&s_stFasterRcnnNnieParam,
++        &s_stFasterRcnnSoftwareParam);
++    SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret,FRCNN_FAIL_0,SAMPLE_SVP_ERR_LEVEL_ERROR,
++        "Error,SAMPLE_SVP_NNIE_FasterRcnn_ParamInit failed!\n");
++
++    // æ¨¡å‹å…³é”®ä¿¡æ¯
++    LOGI("model={ type=%x, frmNum=%u, chnNum=%u, w=%u, h=%u, stride=%u }\n",
++        s_stFasterRcnnNnieParam.astSegData[0].astSrc[0].enType,
++       s_stFasterRcnnNnieParam.astSegData[0].astSrc[0].u32Num,
++        s_stFasterRcnnNnieParam.astSegData[0].astSrc[0].unShape.stWhc.u32Chn,
++       s_stFasterRcnnNnieParam.astSegData[0].astSrc[0].unShape.stWhc.u32Width,
++        s_stFasterRcnnNnieParam.astSegData[0].astSrc[0].unShape.stWhc.u32Height,
++       s_stFasterRcnnNnieParam.astSegData[0].astSrc[0].u32Stride);
++    LOGI("model.soft={ class=%u, ori.w=%u, ori.h=%u,  nmsThresh=%u, confThresh=%u }\n",
++        s_stFasterRcnnSoftwareParam.u32ClassNum,
++        s_stFasterRcnnSoftwareParam.u32OriImWidth,
++        s_stFasterRcnnSoftwareParam.u32OriImHeight,
++        s_stFasterRcnnSoftwareParam.u32NmsThresh,
++        s_stFasterRcnnSoftwareParam.au32ConfThresh);
++
++    // record tskBuf
++    *model = self;
++    return 0;
++
++    FRCNN_FAIL_0:
++         SAMPLE_SVP_NNIE_FasterRcnn_Deinit(&s_stFasterRcnnNnieParam,&s_stFasterRcnnSoftwareParam,
++        &s_stFasterRcnnModel);
++        *model = NULL;
++        return -1;
++}
++
++/*
++    destroy  FasterRcnn model
++*/
++void FasterRcnnDestroy(SAMPLE_SVP_NNIE_CFG_S *self)
++{
++    SAMPLE_SVP_NNIE_FasterRcnn_Deinit(&s_stFasterRcnnNnieParam,&s_stFasterRcnnSoftwareParam,
++    &s_stFasterRcnnModel);
++    free(self);
++}
++
++/*
++    fetch result
++*/
++void FasterRcnnFetchRes(
++    SVP_BLOB_S *pstDstScore, SVP_BLOB_S *pstDstRoi, SVP_BLOB_S *pstClassRoiNum,
++    HI_FLOAT f32PrintResultThresh,
++    DetectObjInfo resBuf[], int resSize, int* resLen)
++{
++    HI_U32 i;
++    HI_U32 j;
++    HI_U32 u32RoiNumBias = 0;
++    HI_U32 u32ScoreBias;
++    HI_U32 u32BboxBias;
++    HI_FLOAT f32Score;
++    HI_S32* ps32Score = SAMPLE_SVP_NNIE_CONVERT_64BIT_ADDR(HI_S32, pstDstScore->u64VirAddr);
++    HI_S32* ps32Roi = SAMPLE_SVP_NNIE_CONVERT_64BIT_ADDR(HI_S32, pstDstRoi->u64VirAddr);
++    HI_S32* ps32ClassRoiNum = SAMPLE_SVP_NNIE_CONVERT_64BIT_ADDR(HI_S32, pstClassRoiNum->u64VirAddr);
++    HI_U32 u32ClassNum = pstClassRoiNum->unShape.stWhc.u32Width;
++
++    // yolo1_faceåªæœ‰2ç±»ï¼Œå®é™…ä¸º1ç±»
++    /* print result, this sample has 21 classes:
++     class 0:background     class 1:plane           class 2:bicycle
++     class 3:bird           class 4:boat            class 5:bottle
++     class 6:bus            class 7:car             class 8:cat
++     class 9:chair          class10:cow             class11:diningtable
++     class 12:dog           class13:horse           class14:motorbike
++     class 15:person        class16:pottedplant     class17:sheep
++     class 18:sofa          class19:train           class20:tvmonitor */
++    //assert(u32ClassNum == 2); // 2: the size of ClassNum
++    assert(resSize > 0);
++    int resId = 0;
++    *resLen = 0;
++
++    if (memset_s(resBuf, resSize * sizeof(resBuf[0]), 0x00, resSize * sizeof(resBuf[0])) != EOK) {
++        HI_ASSERT(0);
++    }
++
++    u32RoiNumBias += ps32ClassRoiNum[0];
++    for (i = 1; i < u32ClassNum; i++) {
++        u32ScoreBias = u32RoiNumBias;
++        u32BboxBias = u32RoiNumBias * SAMPLE_SVP_NNIE_COORDI_NUM;
++
++        // if the confidence score greater than result threshold, the result will be printed
++        if ((HI_FLOAT)ps32Score[u32ScoreBias] / SAMPLE_SVP_NNIE_QUANT_BASE >=
++            f32PrintResultThresh && ps32ClassRoiNum[i] != 0) {
++        }
++
++        for (j = 0; j < (HI_U32)ps32ClassRoiNum[i]; j++) {
++            f32Score = (HI_FLOAT)ps32Score[u32ScoreBias + j] / SAMPLE_SVP_NNIE_QUANT_BASE;
++            if (f32Score < f32PrintResultThresh) {
++                break;
++            }
++            if (resId >= resSize) {
++                LOGE(" FasterRcnn resBuf full\n");
++                break;
++            }
++
++            resBuf[resId].cls = i; // class 1
++            resBuf[resId].score = f32Score;
++
++            RectBox *box = &resBuf[resId].box;
++            box->xmin = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM];
++            box->ymin = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 1];
++            box->xmax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 2]; // 2: æ•°ç»„ä¸‹æ ‡ç»„æˆ
++            box->ymax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 3]; // 3: æ•°ç»„ä¸‹æ ‡ç»„æˆ
++            if (box->xmin >= box->xmax || box->ymin >= box->ymax) {
++                LOGD("rfcn_orig: {%d, %d, %d, %d}, %f, discard for coord ERR\n",
++                    box->xmin, box->ymin, box->xmax, box->ymax, f32Score);
++            } else {
++                LOGD("rfcn_orig: {%d, %d, %d, %d}, %f\n",
++                    box->xmin, box->ymin, box->xmax, box->ymax, f32Score);
++                resId++;
++                // MppFrmDrawRect(resFrm, box, RGB888_RED, 2);
++            }
++        }
++        u32RoiNumBias += ps32ClassRoiNum[i];
++    }
++    *resLen = resId;
++}
++/**************dabao*************************/
++HI_S32 FasterRcnnTrashClassifyToOsd(const DetectObjInfo items[], HI_S32 itemNum, HI_CHAR* buf, HI_S32 size)
++{
++    HI_S32 offset = 0;
++    HI_CHAR *trash_name = NULL;
++    /* print result, this sample has 21 classes:
++     class 0:background     class 1:plane           class 2:bicycle
++     class 3:bird           class 4:boat            class 5:bottle
++     class 6:bus            class 7:car             class 8:cat
++     class 9:chair          class10:cow             class11:diningtable
++     class 12:dog           class13:horse           class14:motorbike
++     class 15:person        class16:pottedplant     class17:sheep
++     class 18:sofa          class19:train           class20:tvmonitor */
++    
++    for (int i = 0; i < itemNum; i++) {
++        const DetectObjInfo *item = &items[i];
++        uint32_t score = item->score * 100 / 4096;
++            switch (item->cls) {
++            case 0u: trash_name = "background";
++                break;
++            case 1u: trash_name = "plane";
++                break;
++            case 2u: trash_name = "bicycle";
++                break;
++            case 3u: trash_name = "bird";
++                break;
++            case 4u: trash_name = "boat";
++                break;
++            case 5u: trash_name = "bottle";
++                break;
++            case 6u: trash_name = "bus";
++                break;
++            case 7u: trash_name = "car";
++                break;
++            case 8u: trash_name = "cat";
++                break;
++            case 9u: trash_name = "chair";
++                break;
++            case 10u: trash_name = "cow";
++                break;
++            case 11u: trash_name = "diningtable";
++                break;
++            case 12u: trash_name = "dog";
++                break;
++            case 13u: trash_name = "horse";
++                break;
++            case 14u: trash_name = "motorbike";
++                break;
++            case 15u:trash_name = "person";
++                break;
++            case 16u: trash_name = "pottedplant";
++                break;
++            case 17u: trash_name = "sheep";
++                break;
++            case 18u: trash_name = "sofa";
++                break;
++            case 19u: trash_name = "train ";
++                break;
++            case 20u: trash_name = "tvmonitor ";
++                break;
++            default:
++                trash_name = "Unkown";
++                break;
++        }
++
++        offset += snprintf_s(buf + offset, size - offset, size - offset - 1,
++        //offset = snprintf_s(buf , size , size  - 1,
++            "%s%s %u:%u%%", (i == 0 ? " " : ", "), trash_name, (int)item->cls, (int)item->score);
++        HI_ASSERT(offset < size);
++    }
++    return offset;
++}
++
++/*
++    è®¡ç®—ä¸€å¼ U8C3 image
++*/
++int FasterRcnnCalImg(SAMPLE_SVP_NNIE_CFG_S* self,
++    const IVE_IMAGE_S *img, float thresh, DetectObjInfo resBuf[], int resSize, int* resLen)
++{
++    thresh = thresh < 0 ? 0.8f : thresh;
++    SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S stInputDataIdx = {0};
++    SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S stProcSegIdx = {0};
++    HI_S32 s32Ret;
++    
++    self->pszPic = NULL;
++    stInputDataIdx.u32SegIdx = 0;
++    stInputDataIdx.u32NodeIdx = 0;
++    
++    signal(SIGPIPE, SIG_IGN);
++    s32Ret = FillNnieByImg(self, &s_stFasterRcnnNnieParam, 0, 0, img);
++    //s32Ret=SAMPLE_SVP_NNIE_FillSrcData(self, &s_st FasterRcnnNnieParam,  &stInputDataIdx);
++    SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret, FRCNN_FAIL_0, SAMPLE_SVP_ERR_LEVEL_ERROR,
++        "Error,SAMPLE_SVP_NNIE_FillSrcData failed!\n");
++
++    // NNIE process(process the 0-th segment)
++    // æ­¤å‡½æ•°å·²ç»è°ƒç”¨äº†GetResult
++    stProcSegIdx.u32SegIdx = 0;
++    s32Ret = SAMPLE_SVP_NNIE_Forward(&s_stFasterRcnnNnieParam,&stInputDataIdx,&stProcSegIdx,HI_TRUE);
++    SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret,FRCNN_FAIL_0,SAMPLE_SVP_ERR_LEVEL_ERROR,
++        "Error,SAMPLE_SVP_NNIE_Forward failed!\n");
++
++    /*RPN*/
++    s32Ret = SAMPLE_SVP_NNIE_FasterRcnn_Rpn(&s_stFasterRcnnNnieParam,&s_stFasterRcnnSoftwareParam);
++    SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret,FRCNN_FAIL_0,SAMPLE_SVP_ERR_LEVEL_ERROR,
++        "Error,SAMPLE_SVP_NNIE_FasterRcnn_Rpn failed!\n");
++    if(0 != s_stFasterRcnnSoftwareParam.stRpnBbox.unShape.stWhc.u32Height)
++    {
++        /*NNIE process 1-st seg, the input conv data comes from 0-th seg's 0-th and
++          1-st report node,the input roi comes from RPN results*/
++        stInputDataIdx.u32SegIdx = 0;
++        stInputDataIdx.u32NodeIdx = 0;
++        stProcSegIdx.u32SegIdx = 1;
++        s32Ret = SAMPLE_SVP_NNIE_ForwardWithBbox(&s_stFasterRcnnNnieParam,&stInputDataIdx,
++            &s_stFasterRcnnSoftwareParam.stRpnBbox,&stProcSegIdx,HI_TRUE);
++        SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret,FRCNN_FAIL_0,SAMPLE_SVP_ERR_LEVEL_ERROR,
++            "Error,SAMPLE_SVP_NNIE_Forward failed!\n");
++
++        /*GetResult*/
++        /*if user has changed net struct, please make sure SAMPLE_SVP_NNIE_FasterRcnn_GetResult
++         function's input datas are correct*/
++        s32Ret = SAMPLE_SVP_NNIE_FasterRcnn_GetResult(&s_stFasterRcnnNnieParam,&s_stFasterRcnnSoftwareParam);
++        SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret,FRCNN_FAIL_0,SAMPLE_SVP_ERR_LEVEL_ERROR,
++            "Error,SAMPLE_SVP_NNIE_FasterRcnn_GetResult failed!\n");
++    }
++    else
++    {
++        for (int i = 0; i < s_stFasterRcnnSoftwareParam.stClassRoiNum.unShape.stWhc.u32Width; i++)
++        {
++            *(((HI_U32*)(HI_UL)s_stFasterRcnnSoftwareParam.stClassRoiNum.u64VirAddr)+i) = 0;
++        }
++    }
++    /*print result, FasterRcnn has 4 classes:
++     class 0:background  class 1:person  class 2:people  class 3:person sitting */
++    SAMPLE_SVP_TRACE_INFO("FasterRcnn result:\n");
++    (void)SAMPLE_SVP_NNIE_Detection_PrintResult(&s_stFasterRcnnSoftwareParam.stDstScore,
++        &s_stFasterRcnnSoftwareParam.stDstRoi, &s_stFasterRcnnSoftwareParam.stClassRoiNum,
++        thresh);
++    FasterRcnnFetchRes(&s_stFasterRcnnSoftwareParam.stDstScore,
++        &s_stFasterRcnnSoftwareParam.stDstRoi, &s_stFasterRcnnSoftwareParam.stClassRoiNum,
++        thresh, resBuf, resSize, resLen);
++    return 0;
++
++    FRCNN_FAIL_0:
++        SAMPLE_SVP_NNIE_FasterRcnn_Deinit(&s_stFasterRcnnNnieParam,&s_stFasterRcnnSoftwareParam,&s_stFasterRcnnModel);
++        return -1;
++}
++
++static const HI_CHAR FasterRcnn_TRASH_CLASSIFY[] = "{"
++    "\"uuid\": " PLUG_UUID ","
++    "\"desc\": " PLUG_DESC ","
++    "\"frmWidth\": " HI_TO_STR(FRM_WIDTH) ","
++    "\"frmHeight\": " HI_TO_STR(FRM_HEIGHT) ","
++    "\"butt\": 0"
++"}";
++
++static const HI_CHAR* FasterRcnnTrashClassifyProf(void)
++{
++    return FasterRcnn_TRASH_CLASSIFY;
++}
++
++static HI_S32 FasterRcnnTrashClassifyLoad(uintptr_t* model, OsdSet* osds)
++{
++    SAMPLE_SVP_NNIE_CFG_S *self = NULL;
++    HI_S32 ret;
++
++    g_osdsTrash = osds;
++    HI_ASSERT(g_osdsTrash);
++    g_osd0Trash = OsdsCreateRgn(g_osdsTrash);
++    HI_ASSERT(g_osd0Trash >= 0);
++
++    ret =FasterRcnnCreate(&self, MODEL_FILE_TRASH);
++    *model = ret < 0 ? 0 : (uintptr_t)self;
++    return ret;
++}
++
++static HI_S32 FasterRcnnTrashClassifyUnload(uintptr_t model)
++{
++    FasterRcnnDestroy((SAMPLE_SVP_NNIE_CFG_S*)model);
++    OsdsClear(g_osdsTrash);
++    return HI_SUCCESS;
++}
++
++static HI_S32 FasterRcnnTrashClassifyCal(uintptr_t model,
++    VIDEO_FRAME_INFO_S *srcFrm, VIDEO_FRAME_INFO_S *resFrm, HI_CHAR** resJson)
++{
++    SAMPLE_SVP_NNIE_CFG_S *self = (SAMPLE_SVP_NNIE_CFG_S*)model; // reference to SDK sample_comm_nnie.h Line 99
++    IVE_IMAGE_S img; // referece to SDK hi_comm_ive.h Line 143
++    static HI_CHAR prevOsd[NORM_BUF_SIZE] = ""; // å®‰å…¨ï¼Œæ’ä»¶æ¶æ„çº¦å®šåŒæ—¶åªä¼šæœ‰ä¸€ä¸ªçº¿ç¨‹è®¿é—®æ’ä»¶
++    HI_CHAR osdBuf[SMALL_BUF_SIZE] = "";
++    /*
++     class 0:background     class 1:plane           class 2:bicycle
++     class 3:bird           class 4:boat            class 5:bottle
++     class 6:bus            class 7:car             class 8:cat
++     class 9:chair          class10:cow             class11:diningtable
++     class 12:dog           class13:horse           class14:motorbike
++     class 15:person        class16:pottedplant     class17:sheep
++     class 18:sofa          class19:train           class20:tvmonitor
++    */    
++    DetectObjInfo resBuf[RET_NUM_MAX] = {0};
++    HI_S32 reslen = 0;
++    HI_S32 ret;
++    RectBox boxs[ TENNIS_OBJ_MAX] = {0};
++    int j=0;
++    
++    ret = FrmToRgbImg((VIDEO_FRAME_INFO_S*)srcFrm, &img);
++    HI_EXP_RET(ret != HI_SUCCESS, ret, " FasterRcnnTrashClassifyCal FAIL, for YUV2RGB FAIL, ret=%#x\n", ret);
++    
++    ret = FasterRcnnCalImg(self, &img, -1,resBuf, HI_ARRAY_SIZE(resBuf), &reslen); // æ²¿ç”¨è¯¥æ¨ç†é€»è¾‘
++    HI_EXP_LOGE(ret < 0, " FasterRcnn cal FAIL, ret=%d\n", ret);
++    HI_ASSERT(reslen <= sizeof(resBuf) / sizeof(resBuf[0]));
++     *resJson = DetectObjsToJson(resBuf, reslen,NULL);
++    HI_MUTEX_LOCK(boxs->MutexLock);
++     for (int i = 0; i < reslen; i++) {
++    //if(( resBuf[i].box.xmax-resBuf[i].box.xmin > 30) && ( resBuf[i].box.ymax-resBuf[i].box.ymin > 30)){
++        boxs[j].xmin= (resBuf[i].box.xmin-5)*2; 
++        boxs[j].ymin= (resBuf[i].box.ymin-5)*1.5;
++        boxs[j].xmax= (resBuf[i].box.xmax+5)*2;
++        boxs[j].ymax= (resBuf[i].box.ymax+5)*1.5;
++        MppFrmDrawRect(resFrm, boxs+j,RGB888_RED, 2);
++        FasterRcnnTrashClassifyToOsd(resBuf, reslen, osdBuf, sizeof(osdBuf));
++        if (strcmp(osdBuf, prevOsd) != 0) {
++        HiStrxfrm(prevOsd, osdBuf, sizeof(prevOsd));
++        HI_OSD_ATTR_S rgn;
++        TxtRgnInit(&rgn, osdBuf,20, 20, ARGB1555_YELLOW2, 30, 30); /*boxs[j].xmin, (boxs[j].ymin-30)*/
++        OsdsSetRgn(g_osdsTrash, g_osd0Trash, &rgn);
++        }
++     }
++     HI_MUTEX_UNLOCK(boxs->MutexLock);
++    
++    if (reslen> 0 && reslen<=25) {
++        LOGI("box num:%d\n", reslen);
++    }
++   
++    // ç”ŸæˆresJsonå’ŒresOsd
++    
++   /* 
++   SddTrashClassifyToOsd(resBuf, reslen, osdBuf, sizeof(osdBuf));
++     // ä»…å½“resJsonä¸æ­¤å‰è®¡ç®—å‘ç”Ÿå˜åŒ–æ—¶,æ‰é‡æ–°æ‰“OSDè¾“å‡ºæ–‡å­—
++       if (strcmp(osdBuf, prevOsd) != 0) {
++            HiStrxfrm(prevOsd, osdBuf, sizeof(prevOsd));
++            HI_OSD_ATTR_S rgn;
++            TxtRgnInits(&rgn, reslen,osdBuf,  boxs, ARGB1555_YELLOW2, 30, 30);
++            OsdsSetRgn(g_osdsTrash, g_osd0Trash, &rgn); 
++            */
++    // å åŠ å›¾å½¢åˆ°resFrmä¸­
++    IveImgDestroy(&img);
++    return ret;
++}
++
++static const AiPlug G_CNN_TRASH_CLASSIFY_ITF = {
++    .Prof =FasterRcnnTrashClassifyProf,
++    .Load = FasterRcnnTrashClassifyLoad,
++    .Unload = FasterRcnnTrashClassifyUnload,
++    .Cal =FasterRcnnTrashClassifyCal,
++};
++
++const AiPlug* AiPlugItf(uint32_t* magic)
++{
++    if (magic) {
++        *magic = AI_PLUG_MAGIC;
++    }
++
++    return (AiPlug*)&G_CNN_TRASH_CLASSIFY_ITF;
++}
++
+diff -urpBN hiopenais/src/plug_demo/hand_classify/hand_classify.c hiopenais_modify/src/plug_demo/hand_classify/hand_classify.c
+--- hiopenais/src/plug_demo/hand_classify/hand_classify.c	2021-08-09 16:30:38.000000000 +0800
++++ hiopenais_modify/src/plug_demo/hand_classify/hand_classify.c	2021-07-05 22:04:27.000000000 +0800
+@@ -26,7 +26,6 @@
+ #include "mpp_help.h"
+ #include "ai_plug.h"
+ #include "ive_img.h"
+-#include "hisignalling.h"
+ 
+ #define PLUG_UUID          "\"hi.hand_classify\""
+ #define PLUG_DESC          "\"æ‰‹éƒ¨æ£€æµ‹åˆ†ç±»(darknet+resnet)\""     // UTF8 encode
+@@ -65,7 +64,6 @@ static const char* Yolo2HandDetectResnet
+     return YOLO2_HAND_DETECT_RESNET_CLASSIFY;
+ }
+ 
+-static int uart_fd = -1;
+ static HI_S32 Yolo2HandDetectResnetClassifyLoad(uintptr_t* model, OsdSet* osds)
+ {
+     SAMPLE_SVP_NNIE_CFG_S *self = NULL;
+@@ -79,10 +77,7 @@ static HI_S32 Yolo2HandDetectResnetClass
+     ret = CnnCreate(&self, MODEL_FILE_GESTURE);
+     *model = ret < 0 ? 0 : (uintptr_t)self;
+     HandDetectInit(); // Initialize the hand detection model
+-	
+-	uart_fd = uartOpenInit();   // open uart fd
+-	HI_ASSERT(uart_fd >= 0);
+-	
++
+     return ret;
+ }
+ 
+@@ -94,8 +89,7 @@ static HI_S32 Yolo2HandDetectResnetClass
+         g_osdsGesture = NULL;
+     }
+     HandDetectExit(); // Uninitialize the hand detection model
+-	close(uart_fd);
+-	
++
+     return 0;
+ }
+ 
+@@ -141,19 +135,13 @@ static void HandDetectAddTxt(const RectB
+ 
+     switch (resBuf.num) {
+         case 0u:
+-            gesture_name = "gesture fist";
+-			usbUartSendRead(uart_fd,FIST);
+-            usleep(100*100);
++            gesture_name = "gesture first";
+             break;
+         case 3u:
+             gesture_name = "gesture palm";
+-			usbUartSendRead(uart_fd,PALM);
+-            usleep(100*100);
+             break;
+         default:
+             gesture_name = "others";
+-			usbUartSendRead(uart_fd,OTHERS);
+-            usleep(100*100);
+             break;
+     }
+ 
+diff -urpBN hiopenais/src/plug_demo/hisignalling/hisignalling.c hiopenais_modify/src/plug_demo/hisignalling/hisignalling.c
+--- hiopenais/src/plug_demo/hisignalling/hisignalling.c	2021-08-03 21:07:53.000000000 +0800
++++ hiopenais_modify/src/plug_demo/hisignalling/hisignalling.c	2021-08-19 19:48:10.173146628 +0800
+@@ -323,7 +323,7 @@ int uartOpenInit(void)
+ 
+ void usbUartSendRead(int fd, HandClassification refuseType)
+ {
+-    unsigned char write_buffer2[4] = {0,2,0,1};
++    unsigned char write_buffer2[4] = {0,2,0,5};
+ 	unsigned char write_buffer3[4] = {0,2,0,2};
+ 	unsigned char write_buffer4[4] = {0,2,0,3};
+     unsigned char read_buff[16] = {0};
+diff -urpBN hiopenais/src/plug_demo/hisignalling/hisignalling.h hiopenais_modify/src/plug_demo/hisignalling/hisignalling.h
+--- hiopenais/src/plug_demo/hisignalling/hisignalling.h	2021-07-31 17:50:51.000000000 +0800
++++ hiopenais_modify/src/plug_demo/hisignalling/hisignalling.h	2021-08-28 14:37:44.765932355 +0800
+@@ -3,6 +3,10 @@
+ #define __HISIGNALLING_H_
+ #include <stdio.h>
+ //#include "cnn_gender_classify.h"
++#ifdef __cplusplus
++extern "C"{
++#endif /* __cplusplus */
++
+ 
+ #define HISIGNALLING_MSG_HEADER_LEN         (1)
+ #define HISGNALLING_MSG_FRAME_HEADER_LEN    (2)
+@@ -40,4 +44,9 @@ int usbOpenInit(void);
+ int uartOpenInit(void);
+ void usbUartSendRead(int fd, HandClassification refuseType);
+ 
+-#endif
+\ æ–‡ä»¶å°¾æ²¡æœ‰æ¢è¡Œç¬¦
++#ifdef __cplusplus
++}
++#endif /* __cplusplus */
++
++#endif /* __NNIE_SAMPLE_PLUG_H */
++
+diff -urpBN hiopenais/src/plug_demo/nnie_sample_plug/nnie_sample_plug.c hiopenais_modify/src/plug_demo/nnie_sample_plug/nnie_sample_plug.c
+--- hiopenais/src/plug_demo/nnie_sample_plug/nnie_sample_plug.c	2021-07-02 10:01:32.000000000 +0800
++++ hiopenais_modify/src/plug_demo/nnie_sample_plug/nnie_sample_plug.c	2021-08-19 10:56:00.720873286 +0800
+@@ -49,7 +49,7 @@
+ 
+ char* DetectObjsToJson(const DetectObjInfo items[], int itemNum, int* resBytes)
+ {
+-    int jsonSize = TINY_BUF_SIZE + itemNum * SMALL_BUF_SIZE; // Ã¿Ò»¸öobjÕ¼ÓÃSMALL_BUF_SIZE¿Õ¼ä
++    int jsonSize = TINY_BUF_SIZE + itemNum * SMALL_BUF_SIZE; // æ¯ä¸€ä¸ªobjå ç”¨SMALL_BUF_SIZEç©ºé—´
+     char *jsonBuf = (char*)malloc(jsonSize);
+     HI_ASSERT(jsonBuf);
+     int offset = 0;
+@@ -73,7 +73,7 @@ char* DetectObjsToJson(const DetectObjIn
+     return jsonBuf;
+ }
+ 
+-static HI_S32 FillNnieByImg(SAMPLE_SVP_NNIE_CFG_S* pstNnieCfg,
++HI_S32 FillNnieByImg(SAMPLE_SVP_NNIE_CFG_S* pstNnieCfg,
+     SAMPLE_SVP_NNIE_PARAM_S *pstNnieParam, int segId, int nodeId, const IVE_IMAGE_S *img)
+ {
+     HI_U32 i;
+@@ -194,7 +194,7 @@ int CnnCreate(SAMPLE_SVP_NNIE_CFG_S **mo
+     SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret, CNN_FAIL_0, SAMPLE_SVP_ERR_LEVEL_ERROR,
+         "Error,SAMPLE_SVP_NNIE_Cnn_ParamInit failed!\n");
+ 
+-    // Ä£ĞÍ¹Ø¼üĞÅÏ¢
++    // æ¨¡å‹å…³é”®ä¿¡æ¯
+     LOGI("model={ type=%x, frmNum=%u, chnNum=%u, w=%u, h=%u, stride=%u }\n",
+         s_stCnnNnieParam.astSegData[0].astSrc[0].enType,
+         s_stCnnNnieParam.astSegData[0].astSrc[0].u32Num,
+@@ -272,7 +272,7 @@ void CnnDumpRes(SVP_BLOB_S *pstGetTopN,
+ }
+ 
+ /*
+-    ¼ÆËãÒ»ÕÅU8C1 image
++    è®¡ç®—ä¸€å¼ U8C1 image
+ */
+ int CnnCalU8c1Img(SAMPLE_SVP_NNIE_CFG_S* self,
+     const IVE_IMAGE_S *img, RecogNumInfo resBuf[], int resSize, int* resLen)
+@@ -311,7 +311,7 @@ int CnnCalU8c1Img(SAMPLE_SVP_NNIE_CFG_S*
+ }
+ 
+ /*
+-    ¼ÆËãÒ»ÕÅU8C1 file
++    è®¡ç®—ä¸€å¼ U8C1 file
+ */
+ int CnnCalU8c1File(SAMPLE_SVP_NNIE_CFG_S* self, const char* picFileName)
+ {
+@@ -404,7 +404,7 @@ int RfcnCreate(SAMPLE_SVP_NNIE_CFG_S **m
+     HI_CHK_GOTO(s32Ret, FAIL_0, "SAMPLE_SVP_NNIE_Rfcn_ParamInit failed!\n");
+     s_bNnieStopSignal = HI_FALSE;
+ 
+-    // Ä£ĞÍ¹Ø¼üĞÅÏ¢
++    // æ¨¡å‹å…³é”®ä¿¡æ¯
+     LOGI("model.base={ type=%x, frmNum=%u, chnNum=%u, w=%u, h=%u, stride=%u }\n",
+         s_stRfcnNnieParam.astSegData[0].astSrc[0].enType,
+         s_stRfcnNnieParam.astSegData[0].astSrc[0].u32Num,
+@@ -455,7 +455,7 @@ void RfcnFetchRes(
+     HI_S32* ps32ClassRoiNum = SAMPLE_SVP_NNIE_CONVERT_64BIT_ADDR(HI_S32, pstClassRoiNum->u64VirAddr);
+     HI_U32 u32ClassNum = pstClassRoiNum->unShape.stWhc.u32Width;
+ 
+-    // yolo1_faceÖ»ÓĞ2Àà£¬Êµ¼ÊÎª1Àà
++    // yolo1_faceåªæœ‰2ç±»ï¼Œå®é™…ä¸º1ç±»
+     /* print result, this sample has 21 classes:
+      class 0:background     class 1:plane           class 2:bicycle
+      class 3:bird           class 4:boat            class 5:bottle
+@@ -499,8 +499,8 @@ void RfcnFetchRes(
+             RectBox *box = &resBuf[resId].box;
+             box->xmin = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM];
+             box->ymin = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 1];
+-            box->xmax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 2]; // 2: Êı×éÏÂ±ê×é³É
+-            box->ymax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 3]; // 3: Êı×éÏÂ±ê×é³É
++            box->xmax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 2]; // 2: æ•°ç»„ä¸‹æ ‡ç»„æˆ
++            box->ymax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 3]; // 3: æ•°ç»„ä¸‹æ ‡ç»„æˆ
+             if (box->xmin >= box->xmax || box->ymin >= box->ymax) {
+                 LOGD("rfcn_orig: {%d, %d, %d, %d}, %f, discard for coord ERR\n",
+                     box->xmin, box->ymin, box->xmax, box->ymax, f32Score);
+@@ -516,7 +516,7 @@ void RfcnFetchRes(
+ }
+ 
+ /*
+-    ¼ÆËãÒ»ÕÅU8C3 image
++    è®¡ç®—ä¸€å¼ U8C3 image
+ */
+ int RfcnCalImg(SAMPLE_SVP_NNIE_CFG_S* self,
+     const IVE_IMAGE_S *img, float thresh, DetectObjInfo resBuf[], int resSize, int* resLen)
+@@ -531,7 +531,7 @@ int RfcnCalImg(SAMPLE_SVP_NNIE_CFG_S* se
+         "Error,SAMPLE_SVP_NNIE_FillSrcData failed!\n");
+ 
+     // NNIE process(process the 0-th segment)
+-    // ´Ëº¯ÊıÒÑ¾­µ÷ÓÃÁËGetResult
++    // æ­¤å‡½æ•°å·²ç»è°ƒç”¨äº†GetResult
+     s32Ret = SAMPLE_SVP_NNIE_Rfcn_Proc(&s_stRfcnNnieParam, &s_stRfcnSoftwareParam);
+     SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret, FAIL_0, SAMPLE_SVP_ERR_LEVEL_ERROR,
+         "Error,SAMPLE_SVP_NNIE_Rfcn_Proc failed!\n");
+@@ -584,7 +584,7 @@ int Yolo1Create(SAMPLE_SVP_NNIE_CFG_S **
+     SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret, FAIL_0, SAMPLE_SVP_ERR_LEVEL_ERROR,
+         "Error,SAMPLE_SVP_NNIE_Yolov1_ParamInit failed!\n");
+ 
+-    // Ä£ĞÍ¹Ø¼üĞÅÏ¢
++    // æ¨¡å‹å…³é”®ä¿¡æ¯
+     LOGI("model.base={ type=%x, frmNum=%u, chnNum=%u, w=%u, h=%u, stride=%u }\n",
+         s_stYolov1NnieParam.astSegData[0].astSrc[0].enType,
+         s_stYolov1NnieParam.astSegData[0].astSrc[0].u32Num,
+@@ -639,7 +639,7 @@ static void Yolo1FetchRes(
+     HI_S32* ps32ClassRoiNum = SAMPLE_SVP_NNIE_CONVERT_64BIT_ADDR(HI_S32, pstClassRoiNum->u64VirAddr);
+     HI_U32 u32ClassNum = pstClassRoiNum->unShape.stWhc.u32Width;
+ 
+-    // yolo1_faceÖ»ÓĞ2Àà£¬Êµ¼ÊÎª1Àà
++    // yolo1_faceåªæœ‰2ç±»ï¼Œå®é™…ä¸º1ç±»
+     /* print result, this sample has 21 classes:
+      class 0:background     class 1:plane           class 2:bicycle
+      class 3:bird           class 4:boat            class 5:bottle
+@@ -683,8 +683,8 @@ static void Yolo1FetchRes(
+             RectBox *box = &resBuf[resId].box;
+             box->xmin = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM];
+             box->ymin = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 1];
+-            box->xmax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 2]; // 2£ºÊı×éÏÂ±ê×é³É
+-            box->ymax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 3]; // 3: Êı×éÏÂ±ê×é³É
++            box->xmax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 2]; // 2ï¼šæ•°ç»„ä¸‹æ ‡ç»„æˆ
++            box->ymax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 3]; // 3: æ•°ç»„ä¸‹æ ‡ç»„æˆ
+             if (box->xmin >= box->xmax || box->ymin >= box->ymax) {
+                 LOGD("yolo1_orig: {%d, %d, %d, %d}, %f, discard for coord ERR\n",
+                     box->xmin, box->ymin, box->xmax, box->ymax, f32Score);
+@@ -744,8 +744,8 @@ void Yolo1DumpRes(SVP_BLOB_S *pstDstScor
+             }
+             s32XMin = ps32Roi[u32BboxBias + j*SAMPLE_SVP_NNIE_COORDI_NUM];
+             s32YMin = ps32Roi[u32BboxBias + j*SAMPLE_SVP_NNIE_COORDI_NUM + 1];
+-            s32XMax = ps32Roi[u32BboxBias + j*SAMPLE_SVP_NNIE_COORDI_NUM + 2]; // 2£ºÊı×éÏÂ±ê×é³É
+-            s32YMax = ps32Roi[u32BboxBias + j*SAMPLE_SVP_NNIE_COORDI_NUM + 3]; // 3: Êı×éÏÂ±ê×é³É
++            s32XMax = ps32Roi[u32BboxBias + j*SAMPLE_SVP_NNIE_COORDI_NUM + 2]; // 2ï¼šæ•°ç»„ä¸‹æ ‡ç»„æˆ
++            s32YMax = ps32Roi[u32BboxBias + j*SAMPLE_SVP_NNIE_COORDI_NUM + 3]; // 3: æ•°ç»„ä¸‹æ ‡ç»„æˆ
+             LOGD("yolo1_face: %f, {%d, %d, %d, %d}\n", f32Score, s32XMin, s32YMin, s32XMax, s32YMax);
+         }
+         u32RoiNumBias += ps32ClassRoiNum[i];
+@@ -753,7 +753,7 @@ void Yolo1DumpRes(SVP_BLOB_S *pstDstScor
+ }
+ 
+ /*
+-    ¼ÆËãÒ»ÕÅU8C3 image
++    è®¡ç®—ä¸€å¼ U8C3 image
+ */
+ int Yolo1CalImg(SAMPLE_SVP_NNIE_CFG_S* self,
+     const IVE_IMAGE_S *img, float thresh, DetectObjInfo resBuf[], int resSize, int* resLen)
+@@ -794,6 +794,7 @@ int Yolo1CalImg(SAMPLE_SVP_NNIE_CFG_S* s
+ }
+ 
+ 
++
+ /******************************************************************************
+ * function : Yolov2 software deinit
+ ******************************************************************************/
+@@ -804,7 +805,7 @@ static HI_S32 SAMPLE_SVP_NNIE_Yolov2_Sof
+         "Error, pstSoftWareParam can't be NULL!\n");
+     if (pstSoftWareParam->stGetResultTmpBuf.u64PhyAddr != 0 && pstSoftWareParam->stGetResultTmpBuf.u64VirAddr != 0) {
+         SAMPLE_SVP_MMZ_FREE(pstSoftWareParam->stGetResultTmpBuf.u64PhyAddr,
+-            pstSoftWareParam->stGetResultTmpBuf.u64VirAddr);
++        pstSoftWareParam->stGetResultTmpBuf.u64VirAddr);
+         pstSoftWareParam->stGetResultTmpBuf.u64PhyAddr = 0;
+         pstSoftWareParam->stGetResultTmpBuf.u64VirAddr = 0;
+         pstSoftWareParam->stDstRoi.u64PhyAddr = 0;
+@@ -865,9 +866,9 @@ static HI_S32 SAMPLE_SVP_NNIE_Yolov2_Sof
+     pstSoftWareParam->u32OriImHeight = pstNnieParam->astSegData[0].astSrc[0].unShape.stWhc.u32Height;
+     pstSoftWareParam->u32OriImWidth = pstNnieParam->astSegData[0].astSrc[0].unShape.stWhc.u32Width;
+     pstSoftWareParam->u32BboxNumEachGrid = 5;
+-    pstSoftWareParam->u32ClassNum = 1;
+-    pstSoftWareParam->u32GridNumHeight = 12;
+-    pstSoftWareParam->u32GridNumWidth = 20;
++    pstSoftWareParam->u32ClassNum = 6;
++    pstSoftWareParam->u32GridNumHeight = 13;
++    pstSoftWareParam->u32GridNumWidth = 13;
+     pstSoftWareParam->u32NmsThresh = (HI_U32)(0.3f*SAMPLE_SVP_NNIE_QUANT_BASE);
+     pstSoftWareParam->u32ConfThresh = (HI_U32)(0.25f*SAMPLE_SVP_NNIE_QUANT_BASE);
+     pstSoftWareParam->u32MaxRoiNum = 10;
+@@ -939,7 +940,7 @@ static HI_S32 SAMPLE_SVP_NNIE_Yolov2_Sof
+ }
+ 
+ /******************************************************************************
+-* function : Yolov1 init
++* function : Yolov2 init
+ ******************************************************************************/
+ static HI_S32 SAMPLE_SVP_NNIE_Yolov2_ParamInit(SAMPLE_SVP_NNIE_CFG_S* pstCfg,
+     SAMPLE_SVP_NNIE_PARAM_S *pstNnieParam, SAMPLE_SVP_NNIE_YOLOV2_SOFTWARE_PARAM_S* pstSoftWareParam)
+@@ -1057,7 +1058,8 @@ static void Yolo2FetchRes(
+     HI_S32* ps32ClassRoiNum = SAMPLE_SVP_NNIE_CONVERT_64BIT_ADDR(HI_S32,pstClassRoiNum->u64VirAddr);
+     HI_U32 u32ClassNum = pstClassRoiNum->unShape.stWhc.u32Width;
+ 
+-    assert(u32ClassNum == 2);
++    LOGI("Total Classes ----> u32ClassNum:(%d)\n",u32ClassNum);
++    assert(u32ClassNum == 7);
+     assert(resSize > 0);
+     int resId = 0;
+     *resLen = 0;
+@@ -1081,7 +1083,7 @@ static void Yolo2FetchRes(
+                 LOGE("yolo2 resBuf full\n");
+                 break;
+             }
+-            resBuf[resId].cls = 1; // class 1
++            resBuf[resId].cls = i; // class 1
+             resBuf[resId].score = f32Score;
+ 
+             RectBox *box = &resBuf[resId].box;
+diff -urpBN hiopenais/src/plug_demo/nnie_sample_plug/nnie_sample_plug.h hiopenais_modify/src/plug_demo/nnie_sample_plug/nnie_sample_plug.h
+--- hiopenais/src/plug_demo/nnie_sample_plug/nnie_sample_plug.h	2021-07-02 10:01:32.000000000 +0800
++++ hiopenais_modify/src/plug_demo/nnie_sample_plug/nnie_sample_plug.h	2021-08-03 16:37:51.869867900 +0800
+@@ -27,27 +27,43 @@ extern "C"{
+ #endif /* __cplusplus */
+ 
+ /******************************************************************************
+-    ²¹³äµÄÀàĞÍ
++    æ¨¡å‹é…ç½®å‚æ•°
++******************************************************************************/
++typedef struct RfcnCfg {
++    uint32_t classNum;
++}   RfcnCfg;
++
++typedef struct Yolo1Cfg {
++    uint32_t classNum;
++    uint32_t gridNumWidth;
++    uint32_t gridNumHeight;
++}   Yolo1Cfg;
++
++extern RfcnCfg g_rfcnCfg;
++extern Yolo1Cfg g_yolo1Cfg;
++
++/******************************************************************************
++    è¡¥å……çš„ç±»å‹
+ ******************************************************************************/
+ /**
+-    Ê¶±ğµÄÊı×ÖµÄĞÅÏ¢.
++    è¯†åˆ«çš„æ•°å­—çš„ä¿¡æ¯.
+ */
+ typedef struct RecogNumInfo {
+-    uint32_t num; // Ê¶±ğµÄÊı×ÖÖµ£¬0~9
+-    uint32_t score; // Êı×ÖµÄ¿ÉĞÅ¶ÈµÃ·Ö£¬ÆäÈ¡Öµ·¶Î§ÓÉ¾ßÌåµÄÄ£ĞÍ¶¨Òå
++    uint32_t num; // è¯†åˆ«çš„æ•°å­—å€¼ï¼Œ0~9
++    uint32_t score; // æ•°å­—çš„å¯ä¿¡åº¦å¾—åˆ†ï¼Œå…¶å–å€¼èŒƒå›´ç”±å…·ä½“çš„æ¨¡å‹å®šä¹‰
+ }   RecogNumInfo;
+ 
+ /**
+-    ¼ì²âµ½µÄÎïÌåµÄĞÅÏ¢.
++    æ£€æµ‹åˆ°çš„ç‰©ä½“çš„ä¿¡æ¯.
+ */
+ typedef struct DetectObjInfo {
+-    int cls; // ÎïÌåµÄÀà±ğ£¬>0µÄÕûÊı
+-    RectBox box; // ÎïÌåµÄ¾ØĞÎÇøÓò(ÏñËØ)
+-    float score; // ÎïÌåµÄ¿ÉĞÅ¶ÈµÃ·Ö
++    int cls; // ç‰©ä½“çš„ç±»åˆ«ï¼Œ>0çš„æ•´æ•°
++    RectBox box; // ç‰©ä½“çš„çŸ©å½¢åŒºåŸŸ(åƒç´ )
++    float score; // ç‰©ä½“çš„å¯ä¿¡åº¦å¾—åˆ†
+ }   DetectObjInfo;
+ 
+ /******************************************************************************
+-    ½«¼ÆËã½á¹û´ò°üÎªÔ¼¶¨¸ñÊ½µÄJSONµÄ¹¤¾ßº¯Êı.
++    å°†è®¡ç®—ç»“æœæ‰“åŒ…ä¸ºçº¦å®šæ ¼å¼çš„JSONçš„å·¥å…·å‡½æ•°.
+ ******************************************************************************/
+ char* DetectObjsToJson(const DetectObjInfo items[], int itemNum, int* resBytes);
+ 
+@@ -65,18 +81,18 @@ int CnnCreate(SAMPLE_SVP_NNIE_CFG_S **mo
+ void CnnDestroy(SAMPLE_SVP_NNIE_CFG_S *self);
+ 
+ /*
+-    ¼ÆËãÒ»ÕÅU8C1 image
++    è®¡ç®—ä¸€å¼ U8C1 image
+ */
+ int CnnCalU8c1Img(SAMPLE_SVP_NNIE_CFG_S* self,
+     const IVE_IMAGE_S *img, RecogNumInfo resBuf[], int resSize, int* resLen);
+ 
+ /*
+-    ¼ÆËãÒ»ÕÅU8C1 file
++    è®¡ç®—ä¸€å¼ U8C1 file
+ */
+ int CnnCalU8c1File(SAMPLE_SVP_NNIE_CFG_S* self, const char* picFileName);
+ 
+ /**
+-    load modelº¯ÊıÀàĞÍ.
++    load modelå‡½æ•°ç±»å‹.
+ */
+ typedef int (*LoadModelFunc)(SAMPLE_SVP_NNIE_MODEL_S *model, const char* modelFile);
+ 
+@@ -91,7 +107,7 @@ int RfcnCreate(SAMPLE_SVP_NNIE_CFG_S **m
+ void RfcnDestroy(SAMPLE_SVP_NNIE_CFG_S *self);
+ 
+ /*
+-    ¼ÆËãÒ»ÕÅU8C3 image
++    è®¡ç®—ä¸€å¼ U8C3 image
+ */
+ int RfcnCalImg(SAMPLE_SVP_NNIE_CFG_S* self,
+     const IVE_IMAGE_S *img, float thresh, DetectObjInfo resBuf[], int resSize, int* resLen);
+@@ -107,13 +123,31 @@ int Yolo1Create(SAMPLE_SVP_NNIE_CFG_S **
+ void Yolo1Destroy(SAMPLE_SVP_NNIE_CFG_S *self);
+ 
+ /*
+-    ¼ÆËãÒ»ÕÅimage
++    è®¡ç®—ä¸€å¼ image
+ */
+ int Yolo1CalImg(SAMPLE_SVP_NNIE_CFG_S* self,
+     const IVE_IMAGE_S *img, float thresh, DetectObjInfo resBuf[], int resSize, int* resLen);
+ 
++int SddCreate(SAMPLE_SVP_NNIE_CFG_S **model, const char* modelFile);
++
++/*
++    destroy CNN model
++*/
++void SddDestroy(SAMPLE_SVP_NNIE_CFG_S *self);
+ 
+ /*
++    è®¡ç®—ä¸€å¼ U8C1 image
++*/
++HI_S32 SsdCalImg(SAMPLE_SVP_NNIE_CFG_S* self,
++    const IVE_IMAGE_S *img, float thresh, DetectObjInfo resBuf[], int resSize, int* resLen);
++
++static HI_S32 SddTrashClassifyToOsd(const DetectObjInfo items[], HI_S32 itemNum, HI_CHAR* buf, HI_S32 size);
++
++HI_S32 FillNnieByImg(SAMPLE_SVP_NNIE_CFG_S* pstNnieCfg,
++    SAMPLE_SVP_NNIE_PARAM_S *pstNnieParam, int segId, int nodeId, const IVE_IMAGE_S *img);
++
++extern HI_S32 CnnTrashClassifyToOsd(const RecogNumInfo items[], HI_S32 itemNum, HI_CHAR* buf, HI_S32 size);
++/*
+     create yolo2 model based mode file
+ */
+ int Yolo2Create(SAMPLE_SVP_NNIE_CFG_S **model, const char* modelFile);
+@@ -128,7 +162,6 @@ void Yolo2Destory(SAMPLE_SVP_NNIE_CFG_S
+ */
+ int Yolo2CalImg(SAMPLE_SVP_NNIE_CFG_S* self,
+     const IVE_IMAGE_S *img, float thresh, DetectObjInfo resBuf[], int resSize, int* resLen);
+-
+ #ifdef __cplusplus
+ }
+ #endif /* __cplusplus */
+diff -urpBN hiopenais/src/plug_demo/ssd_pcb_classify/ssd_pcb_classify.c hiopenais_modify/src/plug_demo/ssd_pcb_classify/ssd_pcb_classify.c
+--- hiopenais/src/plug_demo/ssd_pcb_classify/ssd_pcb_classify.c	1970-01-01 08:00:00.000000000 +0800
++++ hiopenais_modify/src/plug_demo/ssd_pcb_classify/ssd_pcb_classify.c	2021-08-03 18:11:03.122363735 +0800
+@@ -0,0 +1,463 @@
++/*
++ * Copyright (c) 2021 HiSilicon (Shanghai) Technologies CO., LIMITED.
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *     http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++#include <stdio.h>
++#include <stdlib.h>
++#include <string.h>
++#include <errno.h>
++#include <fcntl.h>
++#include <sys/mman.h>
++#include <sys/stat.h>
++#include <sys/types.h>
++#include <unistd.h>
++#include <signal.h>
++#include <pthread.h>
++#include <sys/prctl.h>
++#include <math.h>
++#include <assert.h>
++
++#include "hi_common.h"
++#include "hi_comm_sys.h"
++#include "hi_comm_svp.h"
++#include "sample_comm.h"
++#include "sample_comm_svp.h"
++#include "sample_comm_nnie.h"
++#include "sample_comm_ive.h"
++#include "sample_svp_nnie_software.h"
++#include "sample_nnie_main.h"
++
++#include "nnie_sample_plug.h"
++
++#define SP_NNIE_PLUG
++
++#include <hi_ext_util.h>
++
++#define PLUG_UUID          "\"hi.ssd_pcb_classify\""
++#define PLUG_DESC          "\"pcb_ssd(ä¼ ç»Ÿç®—å­)\""     // UTF8 encode
++
++#define FRM_WIDTH          640
++#define FRM_HEIGHT        480
++#define SCORE_MAX          4096
++// resnet_inst.wkåŸºäºå¼€æºæ¨¡å‹resnet18é‡è®­ï¼Œé€šè¿‡.caffemodelè½¬wkçš„ç»“æœ
++#define MODEL_FILE_TRASH    "./plugs/inst_ssd_cycle.wk" // å¼€æºæ¨¡å‹è½¬æ¢
++
++#define RET_NUM_MAX         21// è¿”å›numberçš„æœ€å¤§æ•°ç›®trr
++#define TENNIS_OBJ_MAX    255
++
++static OsdSet* g_osdsTrash = NULL;
++static HI_S32 g_osd0Trash = -1;
++
++int SsdCreate(SAMPLE_SVP_NNIE_CFG_S **model, const char* modelFile)
++{
++    SAMPLE_SVP_NNIE_CFG_S *self;
++    HI_U32 u32PicNum = 1;
++    HI_S32 s32Ret;
++
++    self = (SAMPLE_SVP_NNIE_CFG_S*)malloc(sizeof(*self));
++    assert(self);
++    if (memset_s(self, sizeof(*self), 0x00, sizeof(*self)) != EOK) {
++        HI_ASSERT(0);
++    }
++   
++    /*
++    if (memset_s(&s_stSsdModel, sizeof(s_stSsdModel), 0, sizeof(s_stSsdModel)) != EOK) {
++        HI_ASSERT(0);
++    }
++    if (memset_s(&s_stSsdNnieParam, sizeof(s_stSsdNnieParam), 0, sizeof(s_stSsdNnieParam)) != EOK) {
++        HI_ASSERT(0);
++    }
++    if (memset_s(&s_stSsdSoftwareParam, sizeof(s_stSsdSoftwareParam), 0, sizeof(s_stSsdSoftwareParam))) {
++        HI_ASSERT(0);
++    }
++    */
++
++    // Set configuration parameter
++    self->pszPic = NULL;
++    self->u32MaxInputNum = u32PicNum; // max input image num in each batch
++    self->u32MaxRoiNum = 0;
++    self->aenNnieCoreId[0] = SVP_NNIE_ID_0; // set NNIE core
++
++    // Sys init
++    //SAMPLE_COMM_SVP_CheckSysInit();
++    // SSD Load model
++    SAMPLE_SVP_TRACE_INFO("Ssd Load model!\n");
++    s32Ret = SAMPLE_COMM_SVP_NNIE_LoadModel((char*)modelFile, &s_stSsdModel);
++    SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret, FAIL_0, SAMPLE_SVP_ERR_LEVEL_ERROR,
++        "Error,SAMPLE_COMM_SVP_NNIE_LoadModel failed!\n");
++
++    // SDD parameter initialization
++    // Sdd software parameters are set in SAMPLE_SVP_NNIE_Sdd_SoftwareParaInit,
++    // if user has changed net struct, please make sure the parameter settings in
++    // SAMPLE_SVP_NNIE_Sdd_SoftwareParaInit function are correct
++    SAMPLE_SVP_TRACE_INFO("Ssd parameter initialization!\n");
++    s_stSsdNnieParam.pstModel = &s_stSsdModel.stModel;
++    s32Ret = SAMPLE_SVP_NNIE_Ssd_ParamInit(self,&s_stSsdNnieParam,&s_stSsdSoftwareParam);
++    SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret, FAIL_0, SAMPLE_SVP_ERR_LEVEL_ERROR,
++        "Error,SAMPLE_SVP_NNIE_Ssd_ParamInit failed!\n");
++
++    // æ¨¡å‹å…³é”®ä¿¡æ¯
++    LOGI("model={ type=%x, frmNum=%u, chnNum=%u, w=%u, h=%u, stride=%u }\n",
++        s_stSsdNnieParam.astSegData[0].astSrc[0].enType,
++        s_stSsdNnieParam.astSegData[0].astSrc[0].u32Num,
++        s_stSsdNnieParam.astSegData[0].astSrc[0].unShape.stWhc.u32Chn,
++        s_stSsdNnieParam.astSegData[0].astSrc[0].unShape.stWhc.u32Width,
++        s_stSsdNnieParam.astSegData[0].astSrc[0].unShape.stWhc.u32Height,
++        s_stSsdNnieParam.astSegData[0].astSrc[0].u32Stride);
++    LOGI("model.soft={ class=%u, ori.w=%u, ori.h=%u,  nmsThresh=%u, confThresh=%u }\n",
++        s_stSsdSoftwareParam.u32ClassNum,
++         s_stSsdSoftwareParam.u32OriImWidth,
++         s_stSsdSoftwareParam.u32OriImHeight,
++         s_stSsdSoftwareParam.u32NmsThresh,
++         s_stSsdSoftwareParam.u32ConfThresh);
++
++    // record tskBuf
++    *model = self;
++    return 0;
++
++    FAIL_0:
++        SAMPLE_SVP_NNIE_Ssd_Deinit(&s_stSsdNnieParam,&s_stSsdSoftwareParam,&s_stSsdModel);
++        *model = NULL;
++        return -1;
++}
++
++/*
++    destroy ssd model
++*/
++void SsdDestroy(SAMPLE_SVP_NNIE_CFG_S *self)
++{
++    SAMPLE_SVP_NNIE_Ssd_Deinit(&s_stSsdNnieParam,&s_stSsdSoftwareParam,&s_stSsdModel);
++    free(self);
++}
++
++/*
++    fetch result
++*/
++static HI_S32 SsdFetchRes(
++    SVP_BLOB_S *pstDstScore, SVP_BLOB_S *pstDstRoi, SVP_BLOB_S *pstClassRoiNum,
++    HI_FLOAT f32PrintResultThresh,
++    DetectObjInfo resBuf[], int resSize, int* resLen)
++{
++    HI_U32 i;
++    HI_U32 j;
++    HI_U32 u32RoiNumBias = 0;
++    HI_U32 u32ScoreBias;
++    HI_U32 u32BboxBias;
++    HI_FLOAT f32Score;
++    HI_S32* ps32Score = SAMPLE_SVP_NNIE_CONVERT_64BIT_ADDR(HI_S32, pstDstScore->u64VirAddr);
++    HI_S32* ps32Roi = SAMPLE_SVP_NNIE_CONVERT_64BIT_ADDR(HI_S32, pstDstRoi->u64VirAddr);
++    HI_S32* ps32ClassRoiNum = SAMPLE_SVP_NNIE_CONVERT_64BIT_ADDR(HI_S32, pstClassRoiNum->u64VirAddr);
++    HI_U32 u32ClassNum = pstClassRoiNum->unShape.stWhc.u32Width;
++
++    // yolo1_faceåªæœ‰2ç±»ï¼Œå®é™…ä¸º1ç±»
++    /* print result, this sample has 21 classes:
++     class 0:background     class 1:plane           class 2:bicycle
++     class 3:bird           class 4:boat            class 5:bottle
++     class 6:bus            class 7:car             class 8:cat
++     class 9:chair          class10:cow             class11:diningtable
++     class 12:dog           class13:horse           class14:motorbike
++     class 15:person        class16:pottedplant     class17:sheep
++     class 18:sofa          class19:train           class20:tvmonitor */
++    //assert(u32ClassNum == 2); // 2: the size of ClassNum
++    assert(resSize > 0);
++    int resId = 0;
++    *resLen = 0;
++
++    if (memset_s(resBuf, resSize * sizeof(resBuf[0]), 0x00, resSize * sizeof(resBuf[0])) != EOK) {
++        HI_ASSERT(0);
++    }
++
++    u32RoiNumBias += ps32ClassRoiNum[0];
++    for (i = 1; i < u32ClassNum; i++) {
++        u32ScoreBias = u32RoiNumBias;
++        u32BboxBias = u32RoiNumBias * SAMPLE_SVP_NNIE_COORDI_NUM;
++
++        // if the confidence score greater than result threshold, the result will be printed
++        if ((HI_FLOAT)ps32Score[u32ScoreBias] / SAMPLE_SVP_NNIE_QUANT_BASE >=
++            f32PrintResultThresh && ps32ClassRoiNum[i] != 0) {
++        }
++
++        for (j = 0; j < (HI_U32)ps32ClassRoiNum[i]; j++) {
++            f32Score = (HI_FLOAT)ps32Score[u32ScoreBias + j] / SAMPLE_SVP_NNIE_QUANT_BASE;
++            if (f32Score < f32PrintResultThresh) {
++                break;
++            }
++            if (resId >= resSize) {
++                LOGE("ssd resBuf full\n");
++                break;
++            }
++
++            resBuf[resId].cls = i; // class 1
++            resBuf[resId].score = f32Score;
++
++            RectBox *box = &resBuf[resId].box;
++            box->xmin = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM];
++            box->ymin = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 1];
++            box->xmax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 2]; // 2: æ•°ç»„ä¸‹æ ‡ç»„æˆ
++            box->ymax = ps32Roi[u32BboxBias + j * SAMPLE_SVP_NNIE_COORDI_NUM + 3]; // 3: æ•°ç»„ä¸‹æ ‡ç»„æˆ
++            if (box->xmin >= box->xmax || box->ymin >= box->ymax) {
++                LOGD("rfcn_orig: {%d, %d, %d, %d}, %f, discard for coord ERR\n",
++                    box->xmin, box->ymin, box->xmax, box->ymax, f32Score);
++            } else {
++                LOGD("rfcn_orig: {%d, %d, %d, %d}, %f\n",
++                    box->xmin, box->ymin, box->xmax, box->ymax, f32Score);
++                resId++;
++                // MppFrmDrawRect(resFrm, box, RGB888_RED, 2);
++                //SddTrashAddTxt(box[j],resBuf[j],ARGB1555_WHITE);
++            }
++        }
++        u32RoiNumBias += ps32ClassRoiNum[i];
++    }
++    *resLen = resId;
++}
++/**************dabao*************************/
++HI_S32 SddTrashAddTxt(const RectBox box, const DetectObjInfo resBuf, uint32_t color)
++{
++    HI_OSD_ATTR_S osdRgn;
++    char osdTxt[TINY_BUF_SIZE];
++    HI_ASSERT(g_osdsTrash);
++    HI_CHAR *trash_name = NULL;
++    /*print result, this sample has 21 classes:
++     class 0:background     class 1:plane           class 2:bicycle
++     class 3:bird           class 4:boat            class 5:bottle
++     class 6:bus            class 7:car             class 8:cat
++     class 9:chair          class10:cow             class11:diningtable
++     class 12:dog           class13:horse           class14:motorbike
++     class 15:person        class16:pottedplant     class17:sheep
++     class 18:sofa          class19:train           class20:tvmonitor */
++    switch (resBuf.cls) {
++            case 0u: trash_name = "background";
++                break;
++            case 1u: trash_name = "plane";
++                break;
++            case 2u: trash_name = "bicycle";
++                break;
++            case 3u: trash_name = "bird";
++                break;
++            case 4u: trash_name = "boat";
++                break;
++            case 5u: trash_name = "bottle";
++                break;
++            case 6u: trash_name = "bus";
++                break;
++            case 7u: trash_name = "car";
++                break;
++            case 8u: trash_name = "cat";
++                break;
++            case 9u: trash_name = "chair";
++                break;
++            case 10u: trash_name = "cow";
++                break;
++            case 11u: trash_name = "diningtable";
++                break;
++            case 12u: trash_name = "dog";
++                break;
++            case 13u: trash_name = "horse";
++                break;
++            case 14u: trash_name = "motorbike";
++                break;
++            case 15u:trash_name = "person";
++                break;
++            case 16u: trash_name = "pottedplant";
++                break;
++            case 17u: trash_name = "sheep";
++                break;
++            case 18u: trash_name = "sofa";
++                break;
++            case 19u: trash_name = "train ";
++                break;
++            case 20u: trash_name = "tvmonitor ";
++                break;
++            default:
++                trash_name = "Unkown";
++                break;
++        }
++        const DetectObjInfo *items = &resBuf;
++        uint32_t score =   (items->score)* HI_PER_BASE / SCORE_MAX;
++	    int res = snprintf_s(osdTxt, sizeof(osdTxt), sizeof(osdTxt) - 1, "%d_%s,%d%%", resBuf.cls, trash_name, score );
++	    HI_ASSERT(res > 0);
++
++	    int osdId = OsdsCreateRgn(g_osdsTrash);
++	    HI_ASSERT(osdId >= 0);
++         int x = box.xmin / HI_OVEN_BASE * HI_OVEN_BASE;
++         int y = (box.ymin - 30) / HI_OVEN_BASE * HI_OVEN_BASE; // 30: empirical value
++        if (y < 0) {
++            LOGD("osd_y < 0, y=%d\n", y);
++            OsdsDestroyRgn(g_osdsTrash, osdId);
++        } else {
++            TxtRgnInit(&osdRgn, osdTxt, x, y, color, 16, 24);
++            OsdsSetRgn(g_osdsTrash, osdId, &osdRgn);
++    }
++}
++/*
++    è®¡ç®—ä¸€å¼ U8C3 image
++*/
++HI_S32 SsdCalImg(SAMPLE_SVP_NNIE_CFG_S* self,
++    const IVE_IMAGE_S *img, float thresh, DetectObjInfo resBuf[], int resSize, int* resLen)
++{
++    thresh = thresh < 0 ? 0.8f : thresh;
++    SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S stInputDataIdx = {0};
++    SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S stProcSegIdx = {0};
++    HI_S32 s32Ret;
++    
++    self->pszPic = NULL;
++    stInputDataIdx.u32SegIdx = 0;
++    stInputDataIdx.u32NodeIdx = 0;
++    
++    signal(SIGPIPE, SIG_IGN);
++    s32Ret = FillNnieByImg(self, &s_stSsdNnieParam, 0, 0, img);
++    //s32Ret=SAMPLE_SVP_NNIE_FillSrcData(self, &s_stSsdNnieParam,  &stInputDataIdx);
++    SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret, FAIL_0, SAMPLE_SVP_ERR_LEVEL_ERROR,
++        "Error,SAMPLE_SVP_NNIE_FillSrcData failed!\n");
++
++    // NNIE process(process the 0-th segment)
++    // æ­¤å‡½æ•°å·²ç»è°ƒç”¨äº†GetResult
++   stProcSegIdx.u32SegIdx = 0;
++   s32Ret = SAMPLE_SVP_NNIE_Forward(&s_stSsdNnieParam,&stInputDataIdx,&stProcSegIdx,HI_TRUE);
++    SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret,FAIL_0,SAMPLE_SVP_ERR_LEVEL_ERROR,
++        "Error,SAMPLE_SVP_NNIE_Forward failed!\n");
++  
++
++    s32Ret = SAMPLE_SVP_NNIE_Ssd_GetResult(&s_stSsdNnieParam,&s_stSsdSoftwareParam);
++    SAMPLE_SVP_CHECK_EXPR_GOTO(HI_SUCCESS != s32Ret,FAIL_0,SAMPLE_SVP_ERR_LEVEL_ERROR,
++        "Error,SAMPLE_SVP_NNIE_Ssd_GetResult failed!\n");
++
++   
++   SAMPLE_SVP_TRACE_INFO("Ssd result:\n");
++    (void)SAMPLE_SVP_NNIE_Detection_PrintResult(&s_stSsdSoftwareParam.stDstScore,
++        &s_stSsdSoftwareParam.stDstRoi, &s_stSsdSoftwareParam.stClassRoiNum,thresh);
++    
++    
++    
++    SsdFetchRes(&s_stSsdSoftwareParam.stDstScore,
++        &s_stSsdSoftwareParam.stDstRoi, &s_stSsdSoftwareParam.stClassRoiNum,
++        thresh, resBuf, resSize, resLen);
++    
++    return 0;
++
++    FAIL_0:
++        SAMPLE_SVP_NNIE_Ssd_Deinit(&s_stSsdNnieParam,&s_stSsdSoftwareParam,&s_stSsdModel);
++        return -1;
++}
++
++static const HI_CHAR SSD_TRASH_CLASSIFY[] = "{"
++    "\"uuid\": " PLUG_UUID ","
++    "\"desc\": " PLUG_DESC ","
++    "\"frmWidth\": " HI_TO_STR(FRM_WIDTH) ","
++    "\"frmHeight\": " HI_TO_STR(FRM_HEIGHT) ","
++    "\"butt\": 0"
++"}";
++
++static const HI_CHAR* SsdTrashClassifyProf(void)
++{
++    return SSD_TRASH_CLASSIFY;
++}
++
++static HI_S32 SsdTrashClassifyLoad(uintptr_t* model, OsdSet* osds)
++{
++    SAMPLE_SVP_NNIE_CFG_S *self = NULL;
++    HI_S32 ret;
++
++    g_osdsTrash = osds;
++    HI_ASSERT(g_osdsTrash);
++    g_osd0Trash = OsdsCreateRgn(g_osdsTrash);
++    HI_ASSERT(g_osd0Trash >= 0);
++
++    ret =SsdCreate(&self, MODEL_FILE_TRASH);
++    *model = ret < 0 ? 0 : (uintptr_t)self;
++    return ret;
++}
++
++static HI_S32 SsdTrashClassifyUnload(uintptr_t model)
++{
++    SsdDestroy((SAMPLE_SVP_NNIE_CFG_S*)model);
++    OsdsClear(g_osdsTrash);
++    return HI_SUCCESS;
++}
++
++static HI_S32 SsdTrashClassifyCal(uintptr_t model,
++    VIDEO_FRAME_INFO_S *srcFrm, VIDEO_FRAME_INFO_S *resFrm, HI_CHAR** resJson)
++{
++    SAMPLE_SVP_NNIE_CFG_S *self = (SAMPLE_SVP_NNIE_CFG_S*)model; // reference to SDK sample_comm_nnie.h Line 99
++    IVE_IMAGE_S img; // referece to SDK hi_comm_ive.h Line 143
++    static HI_CHAR prevOsd[NORM_BUF_SIZE] = ""; // å®‰å…¨ï¼Œæ’ä»¶æ¶æ„çº¦å®šåŒæ—¶åªä¼šæœ‰ä¸€ä¸ªçº¿ç¨‹è®¿é—®æ’ä»¶
++    HI_CHAR osdBuf[SMALL_BUF_SIZE] = "";
++    /*
++     class 0:background     class 1:plane           class 2:bicycle
++     class 3:bird           class 4:boat            class 5:bottle
++     class 6:bus            class 7:car             class 8:cat
++     class 9:chair          class10:cow             class11:diningtable
++     class 12:dog           class13:horse           class14:motorbike
++     class 15:person        class16:pottedplant     class17:sheep
++     class 18:sofa          class19:train           class20:tvmonitor
++    */    
++    DetectObjInfo resBuf[RET_NUM_MAX] = {0};
++    HI_S32 reslen = 0;
++    HI_S32 ret;
++    RectBox boxs[ TENNIS_OBJ_MAX] = {0};
++    int j=0;
++
++    OsdsClear(g_osdsTrash);
++    ret = FrmToRgbImg((VIDEO_FRAME_INFO_S*)srcFrm, &img);
++    HI_EXP_RET(ret != HI_SUCCESS, ret, "SsdTrashClassifyCal FAIL, for YUV2RGB FAIL, ret=%#x\n", ret);
++    
++    ret = SsdCalImg(self, &img, -1,resBuf, HI_ARRAY_SIZE(resBuf), &reslen); // æ²¿ç”¨è¯¥æ¨ç†é€»è¾‘
++    HI_EXP_LOGE(ret < 0, "Ssd cal FAIL, ret=%d\n", ret);
++    HI_ASSERT(reslen <= sizeof(resBuf) / sizeof(resBuf[0]));
++    HI_MUTEX_LOCK(boxs->MutexLock);
++     for (int i = 0; i < reslen; i++) {
++        boxs[i].xmin= (resBuf[i].box.xmin-5)*2; 
++        boxs[i].ymin= (resBuf[i].box.ymin-5)*1.5;
++        boxs[i].xmax= (resBuf[i].box.xmax+5)*2;
++        boxs[i].ymax= (resBuf[i].box.ymax+5)*1.5;
++       /* 
++       boxs[i].xmin= resBuf[i].box.xmin* (resFrm->stVFrame.u32Width) / FRM_WIDTH* HI_OVEN_BASE / HI_OVEN_BASE;
++        boxs[i].ymin= resBuf[i].box.ymin* (resFrm->stVFrame.u32Width) / FRM_WIDTH* HI_OVEN_BASE / HI_OVEN_BASE;
++        boxs[i].xmax= resBuf[i].box.xmax* ( resFrm->stVFrame.u32Height) / FRM_HEIGHT* HI_OVEN_BASE / HI_OVEN_BASE;
++        boxs[i].ymax= resBuf[i].box.ymax* ( resFrm->stVFrame.u32Height) / FRM_HEIGHT* HI_OVEN_BASE / HI_OVEN_BASE;
++        */
++        MppFrmDrawRect(resFrm, boxs+i,RGB888_RED, 2);
++        SddTrashAddTxt(boxs[i],resBuf[i],ARGB1555_WHITE);
++        }
++     HI_MUTEX_UNLOCK(boxs->MutexLock);
++    
++    if (reslen> 0 && reslen<=25) {
++        LOGI("box num:%d\n", reslen);
++       // system("cd ~&&./hisignalling");
++    }
++   
++    // ç”ŸæˆresJsonå’ŒresOsd
++    // *resJson = DetectObjsToJson(resBuf, reslen,NULL);
++     HI_CHAR *jsonBuf =  DetectObjsToJson(resBuf, reslen,NULL);
++    *resJson = jsonBuf;
++    // å åŠ å›¾å½¢åˆ°resFrmä¸­
++    IveImgDestroy(&img);
++    return ret;
++}
++
++static const AiPlug G_CNN_TRASH_CLASSIFY_ITF = {
++    .Prof = SsdTrashClassifyProf,
++    .Load = SsdTrashClassifyLoad,
++    .Unload = SsdTrashClassifyUnload,
++    .Cal =SsdTrashClassifyCal,
++};
++
++const AiPlug* AiPlugItf(uint32_t* magic)
++{
++    if (magic) {
++        *magic = AI_PLUG_MAGIC;
++    }
++
++    return (AiPlug*)&G_CNN_TRASH_CLASSIFY_ITF;
++}
++
+diff -urpBN hiopenais/src/plug_demo/tennis_detect/tennis_detect.cpp hiopenais_modify/src/plug_demo/tennis_detect/tennis_detect.cpp
+--- hiopenais/src/plug_demo/tennis_detect/tennis_detect.cpp	2021-06-01 19:56:20.000000000 +0800
++++ hiopenais_modify/src/plug_demo/tennis_detect/tennis_detect.cpp	2021-09-30 16:46:04.933405023 +0800
+@@ -9,6 +9,8 @@
+ 
+ #include "sample_comm_nnie.h"
+ #include "nnie_sample_plug.h"
++#include "yolov2_hand_detect.h"
++#include "hisignalling.h"
+ 
+ using namespace std;
+ using namespace cv;
+@@ -16,13 +18,22 @@ using namespace cv;
+ #define PLUG_UUID          "\"hi.tennis_detect\""
+ #define PLUG_DESC          "\"ç½‘çƒæ£€æµ‹(ä¼ ç»Ÿç®—å­)\""  // UTF8 encode
+ 
+-#define FRM_WIDTH          640
+-#define FRM_HEIGHT         480
++#define FRM_WIDTH          512
++#define FRM_HEIGHT        512
+ #define TENNIS_OBJ_MAX     256
+ #define DRAW_RETC_THICK    2
++#define SCORE_MAX   4096
++#define DETECT_OBJ_MAX  32
++
++#define TXT_BEGX            20
++#define TXT_BEGY            20
++#define FONT_WIDTH          32
++#define FONT_HEIGHT         40
+ 
+ static OsdSet* g_osdsTennis = NULL;
+ static int g_osd0Tennis = -1;
++int flag1=0;
++int flag2=0;
+ 
+ static const char TENNIS_DETECT[] = "{"
+     "\"uuid\": " PLUG_UUID ","
+@@ -36,7 +47,7 @@ static const char* TennisDetectProf(void
+ {
+     return TENNIS_DETECT;
+ }
+-
++static int uart_fd=-1;
+ static int TennisDetectLoad(uintptr_t* model, OsdSet* osds)
+ {
+     HI_S32 ret = 1;
+@@ -47,7 +58,9 @@ static int TennisDetectLoad(uintptr_t* m
+     HI_ASSERT(g_osd0Tennis >= 0);
+     *model = 1;
+     LOGI("TennisDetectLoad success\n");
+-	
++    HandDetectInit();
++    uart_fd=uartOpenInit();
++    HI_ASSERT(uart_fd>=0);
+ 	return ret;
+ }
+ 
+@@ -55,7 +68,8 @@ static int TennisDetectUnload(uintptr_t
+ {
+     (void)model;
+     OsdsClear(g_osdsTennis);
+-	
++    HandDetectExit();
++    close(uart_fd);
+     return HI_SUCCESS;
+ }
+ 
+@@ -155,41 +169,84 @@ HI_S32 frame2Mat(VIDEO_FRAME_INFO_S *src
+     return HI_SUCCESS;
+ }
+ 
+-/**
+-    å°†è®¡ç®—ç»“æœæ‰“åŒ…ä¸ºresJson.
+-*/
+-HI_CHAR* TennisDetectToJson(const RectBox items[], HI_S32 itemNum, int* resBytes)
++static void Yolo2TrashAddTxt(const RectBox box, const DetectObjInfo resBuf, uint32_t color)
+ {
+-    HI_S32 jsonSize = TINY_BUF_SIZE + itemNum * TINY_BUF_SIZE; // æ¯ä¸ªitemçš„æ‰“åŒ…sizeä¸ºTINY_BUF_SIZE
+-    HI_CHAR *jsonBuf = (HI_CHAR*)malloc(jsonSize);
+-    HI_ASSERT(jsonBuf);
+-    HI_S32 offset = 0;
+-
+-    offset += snprintf_s(jsonBuf + offset, jsonSize - offset, jsonSize - offset - 1, "[");
+-    for (HI_S32 i = 0; i < itemNum; i++) {
+-        const RectBox *item = &items[i];
+-        offset += snprintf_s(jsonBuf + offset, jsonSize - offset, jsonSize - offset - 1,
+-            "%s { \"object xmin\": %d, \"ymin\": %d, \"xmax\": %d, \"ymax\": %d }",
+-            (i == 0 ? "\n  " : ", "), (uint)item->xmin, (uint)item->ymin, (uint)item->xmax, (uint)item->ymax);
+-        HI_ASSERT(offset < jsonSize);
+-    }
+-    offset += snprintf_s(jsonBuf + offset, jsonSize - offset, jsonSize - offset - 1, "]");
+-    HI_ASSERT(offset < jsonSize);
+-    
+-    if (resBytes) {
+-        *resBytes = offset;
++    HI_OSD_ATTR_S osdRgn;
++    char osdTxt[TINY_BUF_SIZE];
++    HI_CHAR *trash_name = NULL;
++     HI_ASSERT( g_osdsTennis);
++    switch (resBuf.cls) {
++           // flag2++;
++            case 0u: trash_name = (char *) "background";
++                break;
++            case 1u: trash_name = (char *)"Missing_hole_rotation";
++                break;
++            case 2u: trash_name = (char *)"Mouse_bite_rotation";
++                break;
++            case 3u: trash_name = (char *)"Open_circuit_rotation";
++                break;
++            case 4u: trash_name = (char *)"Short_rotation";
++                break;
++            case 5u: trash_name = (char *)"Spur_rotation";
++                break;
++            case 6u: trash_name = (char *)"Spurious_copper_rotation";
++                break;
++            default:
++                trash_name = (char *)"Unkown";
++                break;
++        }
++
++    uint32_t score = (resBuf.score) * HI_PER_BASE / SCORE_MAX;
++	int res = snprintf_s(osdTxt, sizeof(osdTxt), sizeof(osdTxt) - 1, "%d_%s,%d %%", resBuf.cls, trash_name, score);
++	HI_ASSERT(res > 0);
++
++	int osdId = OsdsCreateRgn( g_osdsTennis);
++	HI_ASSERT(osdId >= 0);
++
++    int x = box.xmin / HI_OVEN_BASE * HI_OVEN_BASE;
++    int y = (box.ymin - 30) / HI_OVEN_BASE * HI_OVEN_BASE; // 30: empirical value
++    if (y < 0) {
++        LOGD("osd_y < 0, y=%d\n", y);
++        OsdsDestroyRgn( g_osdsTennis, osdId);
++    } else {
++        TxtRgnInit(&osdRgn, osdTxt, x, y, color, 16, 24);
++        OsdsSetRgn( g_osdsTennis, osdId, &osdRgn);
+     }
+-    return jsonBuf;
+ }
+ 
++/*
++    å°†è®¡ç®—ç»“æœæ‰“åŒ…ä¸ºresJson.
++*/
++/*
++HI_S32 YieldToOsd( HI_S32 itemNum,HI_CHAR* buf, HI_S32 size)
++{
++     HI_S32 offset = 0;
++     HI_ASSERT( g_osdsTennis);
++    offset += snprintf_s(buf + offset, size - offset, size - offset - 1, "Yield: {");
++    offset += snprintf_s(buf + offset, size - offset, size - offset - 1,
++        "%u%%",  (int)itemNum);
++    //HI_ASSERT(offset < sizeof(osdTxt));
++    offset += snprintf_s(buf + offset, size - offset, size - offset - 1, " }");
++    //HI_ASSERT(offset < sizeof(osdTxt));
++     // å åŠ å›¾å½¢åˆ°resFrm
++     return offset;
++    //OsdsDestroyRgn( g_osdsTennis, osd);
++}
++*/
+ static int TennisDetectCal(uintptr_t model,
+     VIDEO_FRAME_INFO_S *srcFrm, VIDEO_FRAME_INFO_S *dstFrm, HI_CHAR** resJson)
+ {
+     (void)model;
+     int ret = 0;
+     RectBox boxs[TENNIS_OBJ_MAX] = {0};
+-    int j = 0;
+-
++    IVE_IMAGE_S img;
++    DetectObjInfo objs[DETECT_OBJ_MAX] = {0};
++    static HI_CHAR prevOsd[NORM_BUF_SIZE] = "";
++    HI_CHAR osdBuf[NORM_BUF_SIZE] = "";
++    int objNum=0;
++    int j=0;
++    
++    OsdsClear(g_osdsTennis);
+     Mat image;
+     frame2Mat(srcFrm, image);
+     if (image.size == 0) {
+@@ -216,11 +273,29 @@ static int TennisDetectCal(uintptr_t mod
+     findContours(gray, contours, RETR_EXTERNAL, CHAIN_APPROX_SIMPLE, Point());
+     LOGI("contours.size():%d\n", contours.size());
+ 
+-    for (int i = 0; i < (int)contours.size(); i++) {
++    //for (int i = 0; i < (int)contours.size(); i++) {
+         if (contours.size() > 30) {
+-            continue;
++            flag1++;
++            ret = FrmToOrigImg((VIDEO_FRAME_INFO_S*)srcFrm, &img);
++            HI_EXP_RET(ret != HI_SUCCESS, ret, "hand_detect_cal FAIL, for YUV Frm to Img FAIL, ret=%#x\n", ret);
++            objNum = HandDetectCal(&img, objs); // Send IMG to the detection net for reasoning
++            for (int i = 0; i < objNum; i++) {
++                RectBox *box = &objs[i].box;
++                RectBoxTran(box, FRM_WIDTH, FRM_HEIGHT,
++                    dstFrm->stVFrame.u32Width, dstFrm->stVFrame.u32Height);
++                LOGI("yolo2_out: {%d, %d, %d, %d}\n",
++                    box->xmin, box->ymin, box->xmax, box->ymax);
++                boxs[i] = *box;
++               MppFrmDrawRect(dstFrm, boxs + i, RGB888_RED, 2);
++                Yolo2TrashAddTxt(boxs[i], objs[i], ARGB1555_WHITE);
++                //LOGI("Conformity Rate or conformance rate:(%u%%)\n",(flag2*100)/flag1);
++            }
++            MppFrmDestroy(srcFrm);
++            IveImgDestroy(&img);
+         }
++         
+ 
++        /*
+         Rect ret1 = boundingRect(Mat(contours[i]));
+         ret1.x -= 5;
+         ret1.y -= 5;
+@@ -237,15 +312,36 @@ static int TennisDetectCal(uintptr_t mod
+         }
+         LOGD("dstfrm width:%d, Height:%d\n", dstFrm->stVFrame.u32Width, dstFrm->stVFrame.u32Height);
+ 	}
+-
+-    // æ‰“åŒ…è®¡ç®—ç»“æœä¸ºresJson
+-    *resJson = TennisDetectToJson(boxs, j, NULL);
+-
+     if (j > 0 && j <= 25) {
+         LOGI("box num:%d\n", j);
+         MppFrmDrawRects(dstFrm, boxs, j, RGB888_RED, DRAW_RETC_THICK);
+     }
++    */
++    // æ‰“åŒ…è®¡ç®—ç»“æœä¸ºresJson
++   
++    //YieldToOsd(j,osdBuf, sizeof(osdBuf));  
++    HI_CHAR *jsonBuf = DetectObjsToJson(objs, objNum, NULL);
++    *resJson = jsonBuf;
++    if (objNum > 0) {
++        flag2++;
++        //MppFrmDrawRects(dstFrm, boxs, objNum, RGB888_RED, DRAW_RETC_THICK);
++        usbUartSendRead(uart_fd,FIST);  
++        usleep(100*100);
++    }
++     j=(flag2*100)/flag1;
++    LOGI("Conformity Rate or conformance rate:(%u%%)\n",(flag2*100)/flag1);
+ 
++    /*
++    YieldToOsd(j,osdBuf, sizeof(osdBuf));
++        // å åŠ å›¾å½¢åˆ°resFrmä¸­
++     HI_OSD_ATTR_S rgn;
++    TxtRgnInit(&rgn, osdBuf, TXT_BEGX, TXT_BEGY, ARGB1555_YELLOW2, FONT_WIDTH, FONT_HEIGHT);
++    OsdsSetRgn(g_osdsTennis, g_osd0Tennis, &rgn);
++    LOGI("CNN trash classify: %s\n", osdBuf);
++    */
++    //YieldToOsd(j); 
++    
++    //*resJson = TennisDetectToJson(boxs, j, NULL);
+     return ret;
+ }
+ 
+diff -urpBN hiopenais/src/plug_demo/yolov2_hand_detect/yolov2_hand_detect.c hiopenais_modify/src/plug_demo/yolov2_hand_detect/yolov2_hand_detect.c
+--- hiopenais/src/plug_demo/yolov2_hand_detect/yolov2_hand_detect.c	2021-07-01 16:12:02.000000000 +0800
++++ hiopenais_modify/src/plug_demo/yolov2_hand_detect/yolov2_hand_detect.c	2021-09-30 17:02:07.903947168 +0800
+@@ -24,45 +24,106 @@
+ #include "hi_ext_util.h"
+ #include "mpp_help.h"
+ #include "ai_plug.h"
++#include "hisignalling.h"
+ 
+-#define PLUG_UUID          "\"hi.yolov2_hand_detect\""
+-#define PLUG_DESC          "\"æ‰‹éƒ¨æ£€æµ‹(yolov2)\""     // UTF8 encode
+-
+-#define FRM_WIDTH          640
+-#define FRM_HEIGHT         384
+-#define MODEL_FILE_HAND    "./plugs/hand_detect.wk" // darknet framework wk model
+-
+-#define THRESH_MIN         0.25
+-#define DETECT_OBJ_MAX     32 // todo:need test
+-#define PIRIOD_NUM_MAX     49 // Logs are printed when the number of targets is detected
+-#define DRAW_RETC_THICK    2  // Draw the width of the line
++#define PLUG_UUID "\"hi.yolov2_hand_detect\""
++#define PLUG_DESC "\"æ‰‹éƒ¨æ£€æµ‹(yolov2)\"" // UTF8 encode
+ 
++#define FRM_WIDTH 512
++#define FRM_HEIGHT 512
++//#define FRM_WIDTH 640
++//#define FRM_HEIGHT 384
++#define MODEL_FILE_HAND "./plugs/inst_yolov2_inst.wk" // darknet framework wk model
++
++#define THRESH_MIN 0.7
++#define DETECT_OBJ_MAX 32 // todo:need test
++#define PIRIOD_NUM_MAX 49 // Logs are printed when the number of targets is detected
++#define DRAW_RETC_THICK 2 // Draw the width of the line
++#define SCORE_MAX 4096
++
++/*
++static OsdSet* g_osdsTrash = NULL;
++static HI_S32 g_osd0Trash = -1;
++*/
+ static uintptr_t g_handModel = 0;
+ 
+ static const char YOLO2_FD_PROF[] = "{"
+-    "\"uuid\": " PLUG_UUID ","
+-    "\"desc\": " PLUG_DESC ","
+-    "\"frmWidth\": " HI_TO_STR(FRM_WIDTH) ","
+-    "\"frmHeight\": " HI_TO_STR(FRM_HEIGHT) ","
+-    "\"butt\": 0"
++"\"uuid\": " PLUG_UUID ","
++"\"desc\": " PLUG_DESC ","
++"\"frmWidth\": " HI_TO_STR(FRM_WIDTH) ","
++"\"frmHeight\": " HI_TO_STR(FRM_HEIGHT) ","
++"\"butt\": 0"
+ "}";
+ 
+-static const char* Yolo2FdProf(void)
++static const char *Yolo2FdProf(void)
+ {
+     return YOLO2_FD_PROF;
+ }
+-
+-static HI_S32 Yolo2FdLoad(uintptr_t* model, OsdSet* osds)
++//static int uart_fd=-1;
++static HI_S32 Yolo2FdLoad(uintptr_t *model, OsdSet *osds)
+ {
+     SAMPLE_SVP_NNIE_CFG_S *self = NULL;
+     HI_S32 ret;
+-
++    /*
++    g_osdsTrash = osds;
++    HI_ASSERT(g_osdsTrash);
++    g_osd0Trash = OsdsCreateRgn(g_osdsTrash);
++    HI_ASSERT(g_osd0Trash >= 0);
++    */
+     ret = Yolo2Create(&self, MODEL_FILE_HAND);
+     *model = ret < 0 ? 0 : (uintptr_t)self;
+     LOGI("Yolo2FdLoad ret:%d\n", ret);
++    //uart_fd=uartOpenInit();
++    //HI_ASSERT(uart_fd>=0);
+     return ret;
+ }
+ 
++/*
++static void Yolo2TrashAddTxt(const RectBox box, const DetectObjInfo resBuf, uint32_t color)
++{
++    HI_OSD_ATTR_S osdRgn;
++    char osdTxt[TINY_BUF_SIZE];
++    HI_CHAR *trash_name = NULL;
++     //HI_ASSERT(g_osdsTrash);
++    switch (resBuf.cls) {
++            case 0u: trash_name = "background";
++                break;
++            case 1u: trash_name = "Missing_hole_rotation";
++                break;
++            case 2u: trash_name = "Mouse_bite_rotation";
++                break;
++            case 3u: trash_name = "Open_circuit_rotation";
++                break;
++            case 4u: trash_name = "Short_rotation";
++                break;
++            case 5u: trash_name = "Spur_rotation";
++                break;
++            case 6u: trash_name = "Spurious_copper_rotation";
++                break;
++            default:
++                trash_name = "Unkown";
++                break;
++        }
++
++    uint32_t score = (resBuf.score) * HI_PER_BASE / SCORE_MAX;
++	int res = snprintf_s(osdTxt, sizeof(osdTxt), sizeof(osdTxt) - 1, "%d_%s,%d %%", resBuf.cls, trash_name, score);
++	HI_ASSERT(res > 0);
++
++	int osdId = OsdsCreateRgn(g_osdsTrash);
++	HI_ASSERT(osdId >= 0);
++
++    int x = box.xmin / HI_OVEN_BASE * HI_OVEN_BASE;
++    int y = (box.ymin - 30) / HI_OVEN_BASE * HI_OVEN_BASE; // 30: empirical value
++    if (y < 0) {
++        LOGD("osd_y < 0, y=%d\n", y);
++        OsdsDestroyRgn(g_osdsTrash, osdId);
++    } else {
++        TxtRgnInit(&osdRgn, osdTxt, x, y, color, 16, 24);
++        OsdsSetRgn(g_osdsTrash, osdId, &osdRgn);
++    }
++}
++*/
++
+ HI_S32 HandDetectInit()
+ {
+     return Yolo2FdLoad(&g_handModel, NULL);
+@@ -70,8 +131,9 @@ HI_S32 HandDetectInit()
+ 
+ static HI_S32 Yolo2FdUnload(uintptr_t model)
+ {
+-    Yolo2Destory((SAMPLE_SVP_NNIE_CFG_S*)model);
+-    return 0;
++    Yolo2Destory((SAMPLE_SVP_NNIE_CFG_S *)model);
++     //close(uart_fd);
++    return HI_SUCCESS;
+ }
+ 
+ HI_S32 HandDetectExit()
+@@ -79,11 +141,10 @@ HI_S32 HandDetectExit()
+     return Yolo2FdUnload(g_handModel);
+ }
+ 
+-static HI_S32 Yolo2FdCal(uintptr_t model,
+-    VIDEO_FRAME_INFO_S *srcFrm, VIDEO_FRAME_INFO_S *dstFrm, HI_CHAR** resJson)
++static HI_S32 Yolo2FdCal(uintptr_t model, VIDEO_FRAME_INFO_S *srcFrm, VIDEO_FRAME_INFO_S *dstFrm, HI_CHAR **resJson)
+ {
+-    SAMPLE_SVP_NNIE_CFG_S *self = (SAMPLE_SVP_NNIE_CFG_S*)model; // reference to SDK sample_comm_nnie.h
+-    IVE_IMAGE_S img; // referece to SDK hi_comm_ive.h
++    SAMPLE_SVP_NNIE_CFG_S *self = (SAMPLE_SVP_NNIE_CFG_S *)model; // reference to SDK sample_comm_nnie.h
++    IVE_IMAGE_S img;                                              // referece to SDK hi_comm_ive.h
+     DetectObjInfo objs[DETECT_OBJ_MAX] = {0};
+     RectBox boxs[DETECT_OBJ_MAX] = {0};
+     int objNum;
+@@ -94,10 +155,17 @@ static HI_S32 Yolo2FdCal(uintptr_t model
+     static int64_t calCost = 0;
+     static int piriodNum = 0;
+     int64_t begTime;
++    int biggestBoxIndex;
++    RectBox objBoxs[DETECT_OBJ_MAX] = {0};
++    RectBox remainingBoxs[DETECT_OBJ_MAX] = {0};
++    int num = 0;
++    int weight;
++    int height;
+ 
++    
+     // YUV to RGB
+     begTime = HiClockMs();
+-    ret = FrmToOrigImg((VIDEO_FRAME_INFO_S*)srcFrm, &img);
++    ret = FrmToOrigImg((VIDEO_FRAME_INFO_S *)srcFrm, &img);
+     HI_EXP_RET(ret != HI_SUCCESS, ret, "hand_detect_cal FAIL, for YUV2RGB FAIL, ret=%#x\n", ret);
+     yuv2RgbCost += (HiClockMs() - begTime);
+ 
+@@ -108,38 +176,45 @@ static HI_S32 Yolo2FdCal(uintptr_t model
+     HI_EXP_RET(ret < 0, ret, "hand_detect_cal FAIL, for cal FAIL, ret=%d\n", ret);
+     calCost += (HiClockMs() - begTime);
+     LOGI("objNum:%d\n", objNum);
+-    for (int i = 0; i < objNum; i++) {
++    //OsdsClear(g_osdsTrash);
++    for (int i = 0; i < objNum; i++)
++    {
+         RectBox *box = &objs[i].box;
+-        RectBoxTran(box, FRM_WIDTH, FRM_HEIGHT,
+-            dstFrm->stVFrame.u32Width, dstFrm->stVFrame.u32Height);
++         RectBoxTran(box, FRM_WIDTH, FRM_HEIGHT,
++             dstFrm->stVFrame.u32Width, dstFrm->stVFrame.u32Height);
+         LOGI("yolo2_out: {%d, %d, %d, %d}\n",
+-            box->xmin, box->ymin, box->xmax, box->ymax);
++             box->xmin, box->ymin, box->xmax, box->ymax);
+         boxs[i] = *box;
++            
++            //weight=boxs[i].xmax-boxs[i].xmax;
++            //height=boxs[i].ymax- boxs[i].ymin;
++            
++        //MppFrmDrawRect(dstFrm, boxs + i, RGB888_RED, 2);
++        Yolo2TrashAddTxt(boxs[i], objs[i], ARGB1555_WHITE);      
+     }
+-
+-    // The result of the package calculation is resJSON
+     *resJson = DetectObjsToJson(objs, objNum, NULL);
+-
+-    // Log performance statistics
+-    if (++piriodNum > PIRIOD_NUM_MAX) {
++      /*
++      if (++piriodNum > PIRIOD_NUM_MAX) {
+         LOGD("yolo: num=%d, pcvt=%jd, pcal=%jd\n",
+             piriodNum, yuv2RgbCost / piriodNum, calCost / piriodNum);
+         yuv2RgbCost = 0;
+         calCost = 0;
+         piriodNum = 0;
+     }
+-
+-    // When an object is detected, a rectangle is drawn in the DSTFRM
++    */
++    
+     if (objNum > 0) {
+         MppFrmDrawRects(dstFrm, boxs, objNum, RGB888_RED, DRAW_RETC_THICK);
+     }
+-
++    
++    // å åŠ å›¾å½¢åˆ°resFrmä¸­
++    //IveImgDestroy(&img);
+     return ret;
+ }
+ 
+ static HI_S32 HandDetect(uintptr_t model, IVE_IMAGE_S *srcYuv, DetectObjInfo boxs[])
+ {
+-    SAMPLE_SVP_NNIE_CFG_S *self = (SAMPLE_SVP_NNIE_CFG_S*)model;
++    SAMPLE_SVP_NNIE_CFG_S *self = (SAMPLE_SVP_NNIE_CFG_S *)model;
+     int objNum;
+     int ret;
+     ret = Yolo2CalImg(self, srcYuv, THRESH_MIN, boxs, DETECT_OBJ_MAX, &objNum);
+@@ -160,4 +235,16 @@ static const AiPlug G_HAND_DETECT_ITF =
+     .Load = Yolo2FdLoad,
+     .Unload = Yolo2FdUnload,
+     .Cal = Yolo2FdCal,
+-};
+\ æ–‡ä»¶å°¾æ²¡æœ‰æ¢è¡Œç¬¦
++};
++
++
++/*
++const AiPlug* AiPlugItf(uint32_t* magic)
++{
++    if (magic) {
++        *magic = AI_PLUG_MAGIC;
++    }
++
++    return (AiPlug*)&G_HAND_DETECT_ITF;
++}
++*/
+\ æ–‡ä»¶å°¾æ²¡æœ‰æ¢è¡Œç¬¦
+diff -urpBN hiopenais/src/plug_demo/yolov2_hand_detect/yolov2_hand_detect.h hiopenais_modify/src/plug_demo/yolov2_hand_detect/yolov2_hand_detect.h
+--- hiopenais/src/plug_demo/yolov2_hand_detect/yolov2_hand_detect.h	2021-07-01 14:36:59.000000000 +0800
++++ hiopenais_modify/src/plug_demo/yolov2_hand_detect/yolov2_hand_detect.h	2021-08-18 09:53:27.471504875 +0800
+@@ -28,6 +28,5 @@ extern HI_S32 HandDetectCal(IVE_IMAGE_S
+ 
+ #ifdef __cplusplus
+ }
+-#endif
+-
+-#endif // YOLOV2_HAND_DETECT_H
+\ æ–‡ä»¶å°¾æ²¡æœ‰æ¢è¡Œç¬¦
++#endif // YOLOV2_HAND_DETECT_H
++#endif
+\ æ–‡ä»¶å°¾æ²¡æœ‰æ¢è¡Œç¬¦

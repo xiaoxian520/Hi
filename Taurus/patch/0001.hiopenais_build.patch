@@ -1,0 +1,135 @@
+diff -urpBN hiopenais/build/plug_demo/fasterRcnn_pcb/Makefile hiopenais_modify/build/plug_demo/fasterRcnn_pcb/Makefile
+--- hiopenais/build/plug_demo/fasterRcnn_pcb/Makefile	1970-01-01 08:00:00.000000000 +0800
++++ hiopenais_modify/build/plug_demo/fasterRcnn_pcb/Makefile	2021-07-03 16:35:40.884604260 +0800
+@@ -0,0 +1,14 @@
++include ../mk.param
++
++TARGET := hi.fasterRcnn_pcb.plug
++
++CFLAGS += -I$(SVP_NNIE_SAMPLE_DIR)
++CFLAGS += -I$(SVP_SAMPLE_NNIE_SOFT_DIR)
++
++# source files
++SMP_SRCS := $(wildcard $(FASTERRCNN_PCB_DIR)/*.c)
++SMP_SRCS += $(NNIE_SAMPLE_SRCS)
++SMP_SRCS += $(MPP_SAMPLE_COMM_DIR)/sample_comm_vpss.c
++
++# compile linux
++include ../linux.mk
+\ 文件尾没有换行符
+diff -urpBN hiopenais/build/plug_demo/hand_classify/Makefile hiopenais_modify/build/plug_demo/hand_classify/Makefile
+--- hiopenais/build/plug_demo/hand_classify/Makefile	2021-08-09 15:38:35.000000000 +0800
++++ hiopenais_modify/build/plug_demo/hand_classify/Makefile	2021-06-30 12:52:49.000000000 +0800
+@@ -7,11 +7,9 @@ TARGET := hi.hand_classify.plug
+ CFLAGS += -I$(SVP_NNIE_SAMPLE_DIR)
+ CFLAGS += -I$(SVP_SAMPLE_NNIE_SOFT_DIR)
+ CFLAGS += -I$(YOLOV2_HAND_DETECT_DIR)
+-CFLAGS += -I$(HISIGNALLING_DIR)
+ 
+ # source files
+ SMP_SRCS := $(wildcard $(HAND_CLASSIFY_DIR)/*.c)
+-SMP_SRCS += $(HISIGNALLING_DIR)/hisignalling.c
+ SMP_SRCS += $(YOLOV2_HAND_DETECT_DIR)/yolov2_hand_detect.c
+ SMP_SRCS += $(NNIE_SAMPLE_SRCS)
+ SMP_SRCS += $(MPP_SAMPLE_COMM_DIR)/sample_comm_vpss.c
+diff -urpBN hiopenais/build/plug_demo/Makefile hiopenais_modify/build/plug_demo/Makefile
+--- hiopenais/build/plug_demo/Makefile	2021-07-27 18:28:18.000000000 +0800
++++ hiopenais_modify/build/plug_demo/Makefile	2021-09-30 15:42:30.430990931 +0800
+@@ -1,7 +1,7 @@
+ # Hisilicon HiOpenAIS plug demo workspace makefile
+ 
+-TARGETS := hand_classify cnn_mnist cnn_trash_classify cnn_hand_gesture cnn_gender_classify tennis_detect
+-# hand_classify yolov2_hand_detect 
++TARGETS :=tennis_detect
++
+ TARGETS_clean := ${addsuffix _clean,${TARGETS}}
+ TARGETS_rebuild := ${addsuffix _rebuild,${TARGETS}}
+ 
+@@ -21,4 +21,4 @@ ${TARGETS_clean}:
+ ${TARGETS_rebuild}:
+ 	make -C ${patsubst %_rebuild,%,$@} clean
+ 	make -C ${patsubst %_rebuild,%,$@}
+-	@echo
++	@echo
+\ 文件尾没有换行符
+diff -urpBN hiopenais/build/plug_demo/mk.param hiopenais_modify/build/plug_demo/mk.param
+--- hiopenais/build/plug_demo/mk.param	2021-08-09 15:38:18.000000000 +0800
++++ hiopenais_modify/build/plug_demo/mk.param	2021-08-19 20:35:04.734418186 +0800
+@@ -44,7 +44,6 @@ export CFG_UTIL_DIR := $(ROOT_DIR)/depen
+ export EXT_HEAP_DIR := $(ROOT_DIR)/dependency/cns_heap
+ export CJSON_DIR := $(THIRD_PARTY_DIR)/src/cJSON
+ export OSD_DIR := $(ROOT_DIR)/dependency/osd
+-export FACE_DETECT := $(ROOT_DIR)/dependency/svp/rfcn_face_detect
+ 
+ export INI_UTIL_INC_DIR := $(INI_UTIL_DIR)/include
+ export CFG_UTIL_INC_DIR := $(CFG_UTIL_DIR)/include
+@@ -63,11 +62,13 @@ export CNN_MNIST_DIR := $(HIOPENAIS_SRC)
+ export HISIGNALLING_DIR := $(HIOPENAIS_SRC)/plug_demo/hisignalling
+ export CNN_TRASH_CLASSIFY_DIR := $(HIOPENAIS_SRC)/plug_demo/cnn_trash_classify
+ export TENNIS_DETECT_DIR := $(HIOPENAIS_SRC)/plug_demo/tennis_detect
++export NNIE_SAMPLE_PLUG_DIR := $(HIOPENAIS_SRC)/plug_demo/nnie_sample_plug
++export SSD_PCB_CLASSIFY_DIR := $(HIOPENAIS_SRC)/plug_demo/ssd_pcb_classify
++export FASTERRCNN_PCB_DIR := $(HIOPENAIS_SRC)/plug_demo/fasterRcnn_pcb
+ export YOLOV2_HAND_DETECT_DIR := $(HIOPENAIS_SRC)/plug_demo/yolov2_hand_detect
+ export CNN_HAND_GESTURE_DIR := $(HIOPENAIS_SRC)/plug_demo/cnn_hand_gesture
+ export HAND_CLASSIFY_DIR := $(HIOPENAIS_SRC)/plug_demo/hand_classify
+-export CNN_GENDER_CLASSIFY_DIR := $(HIOPENAIS_SRC)/plug_demo/cnn_gender_classify
+-export NNIE_SAMPLE_PLUG_DIR := $(HIOPENAIS_SRC)/plug_demo/nnie_sample_plug
++
+ 
+ # 使用外部heap，用来做heap破坏检查，会损失性能，仅在debug时才使用
+ ifeq ($(CFG_EXT_HEAP), y)
+diff -urpBN hiopenais/build/plug_demo/ssd_pcb_classify/Makefile hiopenais_modify/build/plug_demo/ssd_pcb_classify/Makefile
+--- hiopenais/build/plug_demo/ssd_pcb_classify/Makefile	1970-01-01 08:00:00.000000000 +0800
++++ hiopenais_modify/build/plug_demo/ssd_pcb_classify/Makefile	2021-06-24 21:49:23.578213219 +0800
+@@ -0,0 +1,14 @@
++include ../mk.param
++
++TARGET := hi.ssd_pcb_classify.plug
++
++CFLAGS += -I$(SVP_NNIE_SAMPLE_DIR)
++CFLAGS += -I$(SVP_SAMPLE_NNIE_SOFT_DIR)
++
++# source files
++SMP_SRCS := $(wildcard $(SSD_PCB_CLASSIFY_DIR)/*.c)
++SMP_SRCS += $(NNIE_SAMPLE_SRCS)
++SMP_SRCS += $(MPP_SAMPLE_COMM_DIR)/sample_comm_vpss.c
++
++# compile linux
++include ../linux.mk
+\ 文件尾没有换行符
+diff -urpBN hiopenais/build/plug_demo/tennis_detect/Makefile hiopenais_modify/build/plug_demo/tennis_detect/Makefile
+--- hiopenais/build/plug_demo/tennis_detect/Makefile	2021-06-01 20:08:51.000000000 +0800
++++ hiopenais_modify/build/plug_demo/tennis_detect/Makefile	2021-08-24 21:26:07.562123149 +0800
+@@ -11,11 +11,15 @@ CFLAGS += -I$(SVP_SAMPLE_IVE_DIR)
+ CFLAGS += -I$(SVP_SAMPLE_COMM_DIR)
+ CFLAGS += -I$(MPP_SAMPLE_COMM_DIR)
+ CFLAGS += -I$(MPP_INC_DIR)
++CFLAGS += -I$(YOLOV2_HAND_DETECT_DIR)
++CFLAGS += -I$(HISIGNALLING_DIR)
+ 
+ # source files
+ SVP_SAMPLE_IVE_DIR = $(SVP_SAMPLE_DIR)/ive/sample
+ SMP_SRCS += $(NNIE_SAMPLE_SRCS)
+ SMP_SRCS += $(MPP_SAMPLE_COMM_DIR)/sample_comm_vpss.c
++SMP_SRCS += $(YOLOV2_HAND_DETECT_DIR)/yolov2_hand_detect.c
++SMP_SRCS += $(HISIGNALLING_DIR)/hisignalling.c
+ SMP_SRCS += $(wildcard $(SVP_SAMPLE_IVE_DIR)/*.c)
+ SMP_SRCS += $(wildcard $(SVP_SAMPLE_COMM_DIR)/*.c)
+ CPP_SRCS += $(wildcard $(TENNIS_DETECT_DIR)/*.cpp)
+diff -urpBN hiopenais/build/plug_demo/yolov2_hand_detect/Makefile hiopenais_modify/build/plug_demo/yolov2_hand_detect/Makefile
+--- hiopenais/build/plug_demo/yolov2_hand_detect/Makefile	2021-06-30 11:48:19.000000000 +0800
++++ hiopenais_modify/build/plug_demo/yolov2_hand_detect/Makefile	2021-08-28 14:35:28.871497720 +0800
+@@ -6,10 +6,12 @@ TARGET := hi.yolov2_hand_detect.plug
+ 
+ CFLAGS += -I$(SVP_NNIE_SAMPLE_DIR)
+ CFLAGS += -I$(SVP_SAMPLE_NNIE_SOFT_DIR)
++CFLAGS += -I$(HISIGNALLING_DIR)
+ 
+ # source files
+ SMP_SRCS := $(wildcard $(YOLOV2_HAND_DETECT_DIR)/*.c)
+ SMP_SRCS += $(NNIE_SAMPLE_SRCS)
++SMP_SRCS += $(HISIGNALLING_DIR)/hisignalling.c
+ SMP_SRCS += $(MPP_SAMPLE_COMM_DIR)/sample_comm_vpss.c
+ 
+ # compile linux
